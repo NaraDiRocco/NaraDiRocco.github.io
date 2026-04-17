@@ -1,0 +1,150 @@
+---
+import type { Lang } from '@lib/i18n';
+import { useTranslations } from '@lib/i18n';
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = 'es' } = Astro.props;
+const t = useTranslations(lang);
+
+const countries = [
+  { name: lang === 'en' ? 'Argentina' : 'Argentina', city: 'Buenos Aires', lat: -34.6037, lng: -58.3816, primary: false },
+  { name: lang === 'en' ? 'Uruguay'   : 'Uruguay',   city: 'Punta del Este', lat: -34.9680, lng: -54.9500, primary: true  },
+  { name: lang === 'en' ? 'Chile'     : 'Chile',     city: 'Santiago',     lat: -33.4489, lng: -70.6693, primary: false },
+  { name: lang === 'en' ? 'Brazil'    : 'Brasil',    city: 'São Paulo',    lat: -23.5505, lng: -46.6333, primary: false },
+  { name: lang === 'en' ? 'Paraguay'  : 'Paraguay',  city: 'Asunción',     lat: -25.2637, lng: -57.5759, primary: false },
+];
+
+const headquartersLabel = t('region.headquarters');
+---
+
+<section id="region" class="section-padding bg-white" aria-label={lang === 'en' ? 'Regional presence' : 'Presencia regional'}>
+  <div class="container-main">
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+
+      <!-- Texto -->
+      <div>
+        <p class="text-gold-dark text-xs font-heading font-semibold uppercase tracking-[0.25em] mb-3">
+          {t('region.eyebrow')}
+        </p>
+        <h2 class="font-heading font-bold text-3xl md:text-4xl text-navy uppercase tracking-wide mb-6">
+          {t('region.title')}
+        </h2>
+        <p class="text-gray-text text-base leading-relaxed mb-8">
+          {t('region.description')}
+        </p>
+
+        <!-- Lista de países -->
+        <ul class="flex flex-col gap-3" role="list" aria-label={t('region.countries.label')}>
+          {countries.map(country => (
+            <li class="flex items-center gap-4">
+              <div class={`
+                w-2 h-2 rounded-full flex-shrink-0
+                ${country.primary ? 'bg-navy' : 'bg-navy-mid'}
+              `} aria-hidden="true"></div>
+              <div>
+                <span class={`font-heading font-semibold text-sm ${country.primary ? 'text-navy' : 'text-navy/80'}`}>
+                  {country.name}
+                </span>
+                <span class="text-gray-text text-sm ml-2">— {country.city}</span>
+                {country.primary && (
+                  <span class="ml-2 bg-navy text-white text-[10px] font-heading font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-sm">
+                    {t('region.headquarters')}
+                  </span>
+                )}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Mapa Leaflet -->
+      <div class="relative rounded-lg overflow-hidden shadow-md" style="height: 460px;">
+        <div id="regional-map" class="w-full h-full"></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script is:inline src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script define:vars={{ headquartersLabel }}>
+  window.__headquartersLabel = headquartersLabel;
+</script>
+
+<script is:inline>
+  (function () {
+    var locations = [
+      { name: 'Argentina', city: 'Buenos Aires', lat: -34.6037, lng: -58.3816, primary: false },
+      { name: 'Uruguay',   city: 'Punta del Este', lat: -34.9680, lng: -54.9500, primary: true  },
+      { name: 'Chile',     city: 'Santiago',     lat: -33.4489, lng: -70.6693, primary: false },
+      { name: 'Brasil',    city: 'São Paulo',    lat: -23.5505, lng: -46.6333, primary: false },
+      { name: 'Paraguay',  city: 'Asunción',     lat: -25.2637, lng: -57.5759, primary: false },
+    ];
+
+    var hqLabel = (window.__headquartersLabel) || 'Sede Principal';
+
+    function initMap() {
+      var el = document.getElementById('regional-map');
+      if (!el || typeof L === 'undefined') return;
+
+      var map = L.map('regional-map', {
+        center: [-32, -60],
+        zoom: 4,
+        scrollWheelZoom: false,
+        zoomControl: false,
+        attributionControl: false,
+      });
+
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        subdomains: 'abcd',
+        maxZoom: 19,
+      }).addTo(map);
+
+      var primaryMarker = null;
+
+      locations.forEach(function (loc) {
+        var isPrimary = loc.primary;
+        var color = isPrimary ? '#1f2b41' : '#7a9ec0';
+        var size  = isPrimary ? 16 : 11;
+        var ring  = isPrimary
+          ? '<div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:26px;height:26px;border:2px solid rgba(31,43,65,0.3);border-radius:50%;"></div>'
+          : '';
+
+        var icon = L.divIcon({
+          className: '',
+          html: '<div style="position:relative;width:' + size + 'px;height:' + size + 'px;">'
+              + ring
+              + '<div style="width:' + size + 'px;height:' + size + 'px;background:' + color + ';border:2.5px solid white;border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,0.3);"></div>'
+              + '</div>',
+          iconSize: [size, size],
+          iconAnchor: [size / 2, size / 2],
+        });
+
+        var popupContent = isPrimary
+          ? '<div style="font-family:system-ui;text-align:center;padding:2px 6px"><strong style="color:#1f2b41">' + loc.city + '</strong><br><span style="font-size:11px;color:#7a9ec0;font-weight:600;text-transform:uppercase;letter-spacing:.05em">' + hqLabel + '</span></div>'
+          : '<div style="font-family:system-ui;padding:2px 6px"><strong>' + loc.city + '</strong>, ' + loc.name + '</div>';
+
+        var marker = L.marker([loc.lat, loc.lng], { icon: icon })
+          .bindPopup(popupContent, { maxWidth: 180 })
+          .addTo(map);
+
+        if (isPrimary) primaryMarker = marker;
+      });
+
+      if (primaryMarker) primaryMarker.openPopup();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initMap);
+    } else {
+      initMap();
+    }
+  })();
+</script>

@@ -1,0 +1,198 @@
+---
+import { Image } from 'astro:assets';
+import heroBg from '@assets/images/hero-bg.jpg';
+import type { Lang } from '@lib/i18n';
+import { useTranslations } from '@lib/i18n';
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = 'es' } = Astro.props;
+const t = useTranslations(lang);
+
+const servicesUrl = lang === 'en' ? '/en/services' : '/servicios';
+const typewriterWords = lang === 'en'
+  ? ['real estate', 'notarial matters', 'accounting', 'investments']
+  : ['real estate', 'escribanía', 'contabilidad', 'inversiones'];
+---
+
+<section
+  class="relative min-h-screen flex items-center overflow-hidden"
+  aria-label={lang === 'en' ? 'Welcome to MECOL ESTUDIO' : 'Bienvenida a MECOL ESTUDIO'}
+>
+  <!-- Fondo: imagen real con overlay navy -->
+  <div class="absolute inset-0" aria-hidden="true">
+    <Image
+      src={heroBg}
+      alt=""
+      class="w-full h-full object-cover"
+      loading="eager"
+      fetchpriority="high"
+      quality={95}
+      format="jpg"
+      widths={[768, 1024, 1366]}
+      sizes="100vw"
+    />
+    <!-- Overlay con menor intensidad para ver mejor la imagen de fondo -->
+    <div class="absolute inset-0 bg-navy/50"></div>
+  </div>
+
+  <!-- Línea dorada decorativa izquierda -->
+  <div class="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-transparent via-gold to-transparent" aria-hidden="true"></div>
+
+  <!-- Contenido centrado -->
+  <div class="relative z-10 container-main w-full min-h-screen flex items-center justify-center py-20 md:py-24">
+    <div class="flex flex-col items-center text-center max-w-5xl mx-auto">
+
+      <!-- Eyebrow -->
+      <p class="text-gold text-xs font-heading font-semibold uppercase tracking-[0.25em] mb-6 flex items-center gap-3">
+        <span class="w-8 h-px bg-gold flex-shrink-0" aria-hidden="true"></span>
+        {t('hero.eyebrow')}
+        <span class="w-8 h-px bg-gold flex-shrink-0" aria-hidden="true"></span>
+      </p>
+
+      <!-- Título principal -->
+      <h1 class="font-heading font-bold text-4xl md:text-5xl lg:text-[3.5rem] leading-[1.1] text-white uppercase tracking-wide mb-6 text-center">
+        {lang === 'en' ? 'Integrated support' : 'Acompañamiento integral'}
+        <br />
+        <span class="inline-flex items-baseline justify-center gap-3 whitespace-nowrap">
+          <span>{lang === 'en' ? 'for' : 'para'}</span>
+          <span class="typewriter-slot text-gold">
+            <span id="typewriter"></span><span class="typewriter-cursor">|</span>
+          </span>
+        </span>
+      </h1>
+
+      <!-- Subtexto -->
+      <p class="text-white/70 text-lg leading-relaxed mb-10 max-w-xl">
+        {t('hero.subtitle')}
+      </p>
+
+      <!-- CTAs -->
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a
+          href={servicesUrl}
+          class="hero-services-cta inline-flex items-center justify-center gap-2 px-8 py-4 bg-gold text-navy text-sm font-heading font-bold uppercase tracking-widest rounded-sm hover:bg-gold-light transition-colors duration-200"
+        >
+          {t('hero.cta.primary')}
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12,5 19,12 12,19"/>
+          </svg>
+        </a>
+        <a
+          href={`https://wa.me/5491100000000?text=${t('contact.whatsapp.message')}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-transparent text-white border-2 border-white/40 text-sm font-heading font-bold uppercase tracking-widest rounded-sm hover:border-white hover:bg-white/10 transition-colors duration-200"
+        >
+          {t('hero.cta.secondary')}
+        </a>
+      </div>
+
+      <!-- Indicadores de confianza -->
+      <div class="flex items-center gap-8 mt-12 pt-8 border-t border-white/10">
+        <div class="text-center">
+          <p class="font-heading font-bold text-2xl text-gold">15+</p>
+          <p class="text-white/50 text-xs uppercase tracking-wider mt-1">{t('hero.stat.years')}</p>
+        </div>
+        <div class="w-px h-10 bg-white/10" aria-hidden="true"></div>
+        <div class="text-center">
+          <p class="font-heading font-bold text-2xl text-gold">200+</p>
+          <p class="text-white/50 text-xs uppercase tracking-wider mt-1">{t('hero.stat.clients')}</p>
+        </div>
+        <div class="w-px h-10 bg-white/10" aria-hidden="true"></div>
+        <div class="text-center">
+          <p class="font-heading font-bold text-2xl text-gold">6</p>
+          <p class="text-white/50 text-xs uppercase tracking-wider mt-1">{t('hero.stat.areas')}</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/30" aria-hidden="true">
+    <span class="text-xs uppercase tracking-widest font-heading">Scroll</span>
+    <div class="w-px h-12 bg-gradient-to-b from-white/30 to-transparent animate-pulse"></div>
+  </div>
+</section>
+
+<style>
+  .typewriter-slot {
+    display: inline-block;
+    min-width: 10ch;
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  .typewriter-cursor {
+    animation: blink 0.9s step-end infinite;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-services-cta {
+      animation: ctaPulse 2.8s ease-in-out infinite;
+    }
+  }
+
+  @keyframes ctaPulse {
+    0%, 100% {
+      box-shadow: 0 0 0 0 rgba(122, 158, 192, 0);
+      transform: translateY(0);
+    }
+    50% {
+      box-shadow: 0 0 0 10px rgba(122, 158, 192, 0.14);
+      transform: translateY(-1px);
+    }
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+</style>
+
+<script define:vars={{ typewriterWords }}>
+  window.__typewriterWords = typewriterWords;
+</script>
+
+<script is:inline>
+  (function () {
+    var words = window.__typewriterWords || ['real estate', 'escribanía', 'contabilidad', 'inversiones'];
+    var wordIndex = 0;
+    var charIndex = 0;
+    var isDeleting = false;
+
+    var el = document.getElementById('typewriter');
+
+    function type() {
+      if (!el) return;
+      var current = words[wordIndex];
+
+      if (isDeleting) {
+        charIndex--;
+      } else {
+        charIndex++;
+      }
+
+      el.textContent = current.slice(0, charIndex);
+
+      var delay = isDeleting ? 70 : 110;
+
+      if (!isDeleting && charIndex === current.length) {
+        delay = 1800;
+        isDeleting = true;
+      } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        wordIndex = (wordIndex + 1) % words.length;
+        delay = 350;
+      }
+
+      setTimeout(type, delay);
+    }
+
+    type();
+  })();
+</script>

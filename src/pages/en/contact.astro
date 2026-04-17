@@ -1,0 +1,35 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+---
+
+<PageLayout
+  title="Contact"
+  description="Contact MECOL ESTUDIO for legal counsel. We are available Monday to Friday, 9am to 6pm in Buenos Aires, Argentina."
+  pageTitle="Contact Us"
+  pageSubtitle="We are available to listen to you."
+  breadcrumb={[{ label: 'Home', href: '/en' }, { label: 'Contact' }]}
+>
+  <section class="section-padding bg-white">
+    <div class="container-main max-w-2xl text-center">
+      <h2 class="font-heading font-bold text-navy text-2xl uppercase tracking-wide mb-8">
+        Get in Touch
+      </h2>
+      <div class="flex flex-col gap-4">
+        <a
+          href="https://wa.me/5491100000000?text=Hello%2C%20I%20would%20like%20to%20inquire%20about%20your%20legal%20services."
+          target="_blank" rel="noopener noreferrer"
+          class="flex items-center gap-4 p-5 bg-navy-mid text-navy rounded-sm hover:bg-navy-light transition-all"
+        >
+          <span class="text-white font-heading font-bold uppercase tracking-wide">WhatsApp — Immediate Response</span>
+        </a>
+        <a
+          href="mailto:contacto@mecolestudio.com.ar?subject=Legal%20Inquiry"
+          class="flex items-center gap-4 p-5 bg-gray-light border border-gray-mid rounded-sm hover:bg-white hover:shadow-md transition-all"
+        >
+          <span class="text-navy font-heading font-bold uppercase tracking-wide">Email: contacto@mecolestudio.com.ar</span>
+        </a>
+      </div>
+      <p class="text-gray-text text-sm mt-8">Office hours: Monday–Friday, 9:00 AM – 6:00 PM (Buenos Aires time)</p>
+    </div>
+  </section>
+</PageLayout>

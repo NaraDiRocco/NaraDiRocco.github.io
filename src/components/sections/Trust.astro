@@ -1,0 +1,118 @@
+---
+import type { Lang } from '@lib/i18n';
+import { useTranslations } from '@lib/i18n';
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = 'es' } = Astro.props;
+const t = useTranslations(lang);
+
+const values = [
+  {
+    number: '15+',
+    label: t('trust.stat1.label'),
+    description: t('trust.stat1.desc'),
+  },
+  {
+    number: '200+',
+    label: t('trust.stat2.label'),
+    description: t('trust.stat2.desc'),
+  },
+  {
+    number: '6',
+    label: t('trust.stat3.label'),
+    description: t('trust.stat3.desc'),
+  },
+  {
+    number: '5',
+    label: t('trust.stat4.label'),
+    description: t('trust.stat4.desc'),
+  },
+];
+
+const pillars = [
+  {
+    icon: 'shield',
+    title: t('trust.pillar1.title'),
+    description: t('trust.pillar1.desc'),
+  },
+  {
+    icon: 'star',
+    title: t('trust.pillar2.title'),
+    description: t('trust.pillar2.desc'),
+  },
+  {
+    icon: 'handshake',
+    title: t('trust.pillar3.title'),
+    description: t('trust.pillar3.desc'),
+  },
+];
+---
+
+<section id="confianza" class="section-padding bg-gray-light" aria-label={lang === 'en' ? 'Why choose us' : 'Por qué elegirnos'}>
+  <div class="container-main">
+
+    <!-- Título -->
+    <div class="text-center max-w-3xl mx-auto mb-16">
+      <p class="text-gold-dark text-xs font-heading font-semibold uppercase tracking-[0.25em] mb-3">
+        {t('trust.eyebrow')}
+      </p>
+      <h2 class="font-heading font-bold text-3xl md:text-4xl text-navy uppercase tracking-wide">
+        {t('trust.title')}
+      </h2>
+      <div class="w-16 h-0.5 bg-gold mx-auto mt-6" aria-hidden="true"></div>
+    </div>
+
+    <!-- Métricas numéricas -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
+      {values.map(item => (
+        <div class="bg-white rounded-sm p-6 text-center border border-gray-mid shadow-sm">
+          <p class="font-heading font-bold text-4xl md:text-5xl text-navy mb-2">
+            {item.number}
+          </p>
+          <p class="font-heading font-semibold text-gold text-xs uppercase tracking-widest mb-2">
+            {item.label}
+          </p>
+          <p class="text-gray-text text-xs leading-relaxed hidden md:block">
+            {item.description}
+          </p>
+        </div>
+      ))}
+    </div>
+
+    <!-- Pilares de valor -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {pillars.map(pillar => (
+        <div class="flex flex-col items-center text-center p-6">
+          <!-- Ícono -->
+          <div class="w-16 h-16 bg-navy rounded-sm flex items-center justify-center mb-5">
+            {pillar.icon === 'shield' && (
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-gold" aria-hidden="true">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+            )}
+            {pillar.icon === 'star' && (
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-gold" aria-hidden="true">
+                <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26 12,2"/>
+              </svg>
+            )}
+            {pillar.icon === 'handshake' && (
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-gold" aria-hidden="true">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+            )}
+          </div>
+          <h3 class="font-heading font-bold text-navy text-sm uppercase tracking-widest mb-3">
+            {pillar.title}
+          </h3>
+          <p class="text-gray-text text-sm leading-relaxed">
+            {pillar.description}
+          </p>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>

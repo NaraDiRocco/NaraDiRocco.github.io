@@ -1,0 +1,49 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import SectionHeader from '@components/common/SectionHeader.astro';
+import TeamCard from './TeamCard.astro';
+import type { Lang } from '@lib/i18n';
+import { useTranslations } from '@lib/i18n';
+
+interface Props {
+  members: CollectionEntry<'team'>[];
+  lang?: Lang;
+}
+
+const { members, lang = 'es' } = Astro.props;
+const t = useTranslations(lang);
+const sorted = [...members].sort((a, b) => a.data.order - b.data.order);
+---
+
+<section id="equipo" class="section-padding bg-white">
+  <div class="container-main">
+
+    <SectionHeader
+      eyebrow={t('team.eyebrow')}
+      title={t('team.title')}
+      subtitle={t('team.subtitle')}
+      align="center"
+      theme="light"
+    />
+
+    <!-- Grid del equipo -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      {sorted.map(member => (
+        <TeamCard member={member} />
+      ))}
+    </div>
+
+    <!-- CTA: solo mostrar en español (la página /en/team no existe aún) -->
+    {lang === 'es' && (
+      <div class="text-center mt-12">
+        <a
+          href="/nosotros#equipo"
+          class="inline-flex items-center gap-2 px-8 py-4 border-2 border-navy text-navy text-sm font-heading font-bold uppercase tracking-widest rounded-sm hover:bg-navy hover:text-white transition-colors duration-200"
+        >
+          {t('team.cta')}
+        </a>
+      </div>
+    )}
+
+  </div>
+</section>

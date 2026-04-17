@@ -1,0 +1,199 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+const members = await getCollection('team');
+const sorted = members.sort((a, b) => a.data.order - b.data.order);
+---
+
+<PageLayout
+  title="Nosotros"
+  description="Conocé la historia, misión, valores y el equipo de MECOL ESTUDIO. Profesionales comprometidos con la excelencia jurídica y el acompañamiento estratégico."
+  pageTitle="Nosotros"
+  pageSubtitle="Una mirada integral para decisiones importantes."
+  breadcrumb={[{ label: 'Inicio', href: '/' }, { label: 'Nosotros' }]}
+>
+  <!-- Historia del estudio -->
+  <section class="section-padding bg-white">
+    <div class="container-main">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <p class="text-gold-dark text-xs font-heading font-semibold uppercase tracking-[0.25em] mb-3">
+            Nuestra Historia
+          </p>
+          <h2 class="font-heading font-bold text-3xl text-navy uppercase tracking-wide mb-6">
+            Un Estudio Fundado con Propósito
+          </h2>
+          <div class="space-y-4 text-gray-text leading-relaxed">
+            <p>
+              MECOL ESTUDIO nació de la convicción de que el asesoramiento jurídico debe ir más allá de la consulta puntual. Desde nuestra fundación, nos hemos enfocado en construir relaciones de largo plazo con nuestros clientes, acompañándolos en cada etapa de su desarrollo.
+            </p>
+            <p>
+              Con más de 15 años de trayectoria, hemos desarrollado una práctica sólida en las áreas más relevantes del derecho empresarial: societario, contractual, laboral, administrativo e inmobiliario.
+            </p>
+            <p>
+              Nuestra presencia se extiende en Argentina y en la región latinoamericana, ofreciendo a nuestros clientes la posibilidad de contar con asesoramiento integral independientemente de las fronteras.
+            </p>
+          </div>
+        </div>
+        <div class="bg-gray-light rounded-sm p-8 border-l-4 border-gold">
+          <blockquote class="text-navy font-heading font-medium text-xl leading-relaxed italic">
+            "Una mirada integral para decisiones importantes."
+          </blockquote>
+          <p class="text-gold-dark text-sm font-heading font-semibold mt-4">
+            — MECOL ESTUDIO
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Misión, Visión, Valores -->
+  <section class="section-padding bg-gray-light">
+    <div class="container-main">
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <h2 class="font-heading font-bold text-3xl text-navy uppercase tracking-wide">
+          Nuestra Esencia
+        </h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {[
+          {
+            title: 'Misión',
+            icon: '🎯',
+            text: 'Brindar asesoramiento jurídico de excelencia que contribuya al crecimiento sostenible de nuestros clientes, con un enfoque estratégico e integral.',
+          },
+          {
+            title: 'Visión',
+            icon: '🔭',
+            text: 'Ser el estudio jurídico de referencia en Argentina y la región para empresas que buscan un acompañamiento legal estratégico y comprometido.',
+          },
+          {
+            title: 'Valores',
+            icon: '⚖️',
+            text: 'Integridad, excelencia técnica, compromiso con el cliente, confidencialidad y orientación a resultados son los pilares de nuestra práctica profesional.',
+          },
+        ].map(item => (
+          <div class="bg-white rounded-sm p-8 shadow-sm border-t-4 border-gold text-center">
+            <div class="text-4xl mb-4" aria-hidden="true">{item.icon}</div>
+            <h3 class="font-heading font-bold text-navy text-lg uppercase tracking-wide mb-4">
+              {item.title}
+            </h3>
+            <p class="text-gray-text text-sm leading-relaxed">{item.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Por qué elegirnos -->
+  <section class="section-padding bg-navy">
+    <div class="container-main">
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <h2 class="font-heading font-bold text-3xl text-white uppercase tracking-wide">
+          Por Qué Elegirnos
+        </h2>
+        <div class="w-16 h-0.5 bg-gold mx-auto mt-4"></div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {[
+          { title: 'Experiencia Comprobada', text: 'Más de 15 años asesorando empresas y particulares.' },
+          { title: 'Visión Integral', text: 'Abordamos cada caso desde todas sus perspectivas jurídicas.' },
+          { title: 'Alcance Regional', text: 'Presencia activa en Argentina y el Cono Sur.' },
+          { title: 'Atención Personalizada', text: 'Cada cliente recibe atención directa de nuestros socios.' },
+        ].map(item => (
+          <div class="bg-white/5 border border-white/10 rounded-sm p-6">
+            <div class="w-8 h-0.5 bg-gold mb-4"></div>
+            <h3 class="font-heading font-bold text-white text-sm uppercase tracking-wider mb-3">
+              {item.title}
+            </h3>
+            <p class="text-white/50 text-sm leading-relaxed">{item.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Nuestro Equipo -->
+  <section id="equipo" class="section-padding bg-white">
+    <div class="container-main">
+
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <p class="text-gold-dark text-xs font-heading font-semibold uppercase tracking-[0.25em] mb-3">
+          Nuestro Equipo
+        </p>
+        <h2 class="font-heading font-bold text-3xl text-navy uppercase tracking-wide">
+          Profesionales Comprometidos con la Excelencia
+        </h2>
+        <div class="w-16 h-0.5 bg-gold mx-auto mt-6"></div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        {sorted.map(async (member) => {
+          const { Content } = await render(member);
+          return (
+            <article class="flex flex-col md:flex-row gap-8 p-8 bg-gray-light rounded-sm">
+              <!-- Foto -->
+              <div class="flex-shrink-0">
+                <div class="w-32 h-32 md:w-40 md:h-40 rounded-sm overflow-hidden bg-navy/10">
+                  {member.data.photo ? (
+                    <img
+                      src={member.data.photo}
+                      alt={`Foto de ${member.data.name}`}
+                      class="w-full h-full object-cover object-top"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-navy to-navy-mid">
+                      <svg class="w-16 h-16 text-white/20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
+                      </svg>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <!-- Info -->
+              <div class="flex-1">
+                <h3 class="font-heading font-bold text-navy text-xl mb-1">
+                  {member.data.name}
+                </h3>
+                <p class="text-gold font-heading font-semibold text-xs uppercase tracking-widest mb-1">
+                  {member.data.role}
+                </p>
+                <p class="text-gray-text text-sm mb-4">{member.data.specialization}</p>
+
+                <div class="prose-mecol text-sm mb-4">
+                  <Content />
+                </div>
+
+                <div class="flex gap-3 mt-4">
+                  {member.data.linkedin && (
+                    <a
+                      href={member.data.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="inline-flex items-center gap-1.5 text-navy-mid hover:text-navy text-xs font-heading font-semibold uppercase tracking-wider transition-colors"
+                      aria-label={`LinkedIn de ${member.data.name}`}
+                    >
+                      LinkedIn →
+                    </a>
+                  )}
+                  {member.data.email && (
+                    <a
+                      href={`mailto:${member.data.email}`}
+                      class="inline-flex items-center gap-1.5 text-navy-mid hover:text-navy text-xs font-heading font-semibold uppercase tracking-wider transition-colors"
+                    >
+                      Email →
+                    </a>
+                  )}
+                </div>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+
+    </div>
+  </section>
+</PageLayout>

@@ -1,0 +1,66 @@
+---
+interface Props {
+  variant?: 'primary' | 'secondary' | 'ghost' | 'gold';
+  size?: 'sm' | 'md' | 'lg';
+  href?: string;
+  type?: 'button' | 'submit' | 'reset';
+  class?: string;
+  target?: '_blank' | '_self';
+  rel?: string;
+  disabled?: boolean;
+  'aria-label'?: string;
+}
+
+const {
+  variant = 'primary',
+  size = 'md',
+  href,
+  type = 'button',
+  class: className = '',
+  target,
+  rel,
+  disabled = false,
+  'aria-label': ariaLabel,
+} = Astro.props;
+
+const baseClasses = 'inline-flex items-center justify-center gap-2 font-heading font-semibold uppercase tracking-wider transition-all duration-200 focus-visible:outline-2 focus-visible:outline-gold focus-visible:outline-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
+
+const variantClasses = {
+  primary: 'bg-navy text-white hover:bg-navy-mid border-2 border-navy hover:border-navy-mid',
+  secondary: 'bg-transparent text-navy border-2 border-navy hover:bg-navy hover:text-white',
+  ghost: 'bg-transparent text-white border-2 border-white/60 hover:border-white hover:bg-white/10',
+  gold: 'bg-gold text-navy border-2 border-gold hover:bg-gold-light hover:border-gold-light',
+};
+
+const sizeClasses = {
+  sm: 'px-4 py-2 text-xs rounded',
+  md: 'px-6 py-3 text-sm rounded',
+  lg: 'px-8 py-4 text-base rounded-sm',
+};
+
+const classes = `${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${className}`;
+
+const isExternal = target === '_blank';
+const relValue = isExternal ? (rel ?? 'noopener noreferrer') : rel;
+---
+
+{href ? (
+  <a
+    href={href}
+    class={classes}
+    target={target}
+    rel={relValue}
+    aria-label={ariaLabel}
+  >
+    <slot />
+  </a>
+) : (
+  <button
+    type={type}
+    class={classes}
+    disabled={disabled}
+    aria-label={ariaLabel}
+  >
+    <slot />
+  </button>
+)}

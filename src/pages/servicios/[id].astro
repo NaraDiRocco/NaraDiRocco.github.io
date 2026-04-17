@@ -1,0 +1,53 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const services = await getCollection('services', ({ data }) => !data.draft);
+  return services.map(service => ({
+    params: { id: service.id },
+    props: { service },
+  }));
+}
+
+const { service } = Astro.props;
+const { Content } = await render(service);
+---
+
+<PageLayout
+  title={service.data.title}
+  description={service.data.shortDescription}
+  pageTitle={service.data.title}
+  pageSubtitle={service.data.shortDescription}
+  breadcrumb={[
+    { label: 'Inicio', href: '/' },
+    { label: 'Servicios', href: '/servicios' },
+    { label: service.data.title },
+  ]}
+>
+  <section class="section-padding bg-white">
+    <div class="container-main max-w-4xl">
+      <div class="prose-mecol">
+        <Content />
+      </div>
+
+      <!-- CTA al final -->
+      <div class="mt-12 pt-8 border-t border-gray-mid flex flex-col sm:flex-row gap-4 items-start">
+        <a
+          href="https://wa.me/5491100000000"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 px-6 py-3 bg-navy text-white text-sm font-heading font-bold uppercase tracking-widest rounded-sm hover:bg-navy-mid transition-colors"
+        >
+          Consultar por este servicio
+        </a>
+        <a
+          href="/servicios"
+          class="inline-flex items-center gap-2 text-navy-mid hover:text-navy text-sm font-heading font-semibold transition-colors"
+        >
+          ← Ver todos los servicios
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

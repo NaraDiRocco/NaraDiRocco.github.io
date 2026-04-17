@@ -1,0 +1,67 @@
+---
+import SEO from '@components/common/SEO.astro';
+import Header from '@components/layout/Header.astro';
+import Footer from '@components/layout/Footer.astro';
+import { getLangFromUrl } from '@lib/i18n';
+import '../styles/global.css';
+
+const lang = getLangFromUrl(Astro.url);
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  canonicalURL?: string;
+  type?: 'website' | 'article';
+  publishDate?: Date;
+  author?: string;
+  jsonLd?: Record<string, unknown>;
+  bodyClass?: string;
+}
+
+const {
+  title,
+  description,
+  image,
+  canonicalURL,
+  type,
+  publishDate,
+  author,
+  jsonLd,
+  bodyClass = '',
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang={lang}>
+  <head>
+    <SEO
+      title={title}
+      description={description}
+      image={image}
+      canonicalURL={canonicalURL}
+      type={type}
+      publishDate={publishDate}
+      author={author}
+      jsonLd={jsonLd}
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <meta name="view-transition" content="same-origin" />
+  </head>
+  <body class={`font-body ${bodyClass}`}>
+    <a href="#main-content" class="skip-link">{lang === 'en' ? 'Skip to main content' : 'Ir al contenido principal'}</a>
+
+    <Header />
+
+    <main id="main-content" tabindex="-1">
+      <slot />
+    </main>
+
+    <Footer />
+  </body>
+</html>

@@ -1,0 +1,24 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+import { getCollection } from 'astro:content';
+import PostList from '@components/blog/PostList.astro';
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const posts = allPosts.sort((a, b) =>
+  new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime()
+);
+---
+
+<PageLayout
+  title="Novedades"
+  description="Artículos de opinión, análisis legislativos y jurisprudencia relevante del equipo de MECOL ESTUDIO."
+  pageTitle="Novedades"
+  pageSubtitle="Análisis jurídico, legislación y jurisprudencia."
+  breadcrumb={[{ label: 'Inicio', href: '/' }, { label: 'Novedades' }]}
+>
+  <section class="section-padding bg-white">
+    <div class="container-main">
+      <PostList posts={posts} />
+    </div>
+  </section>
+</PageLayout>

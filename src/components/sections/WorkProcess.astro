@@ -1,0 +1,140 @@
+---
+import type { Lang } from '@lib/i18n';
+import { useTranslations } from '@lib/i18n';
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = 'es' } = Astro.props;
+const t = useTranslations(lang);
+
+const steps = [
+  {
+    number: '01',
+    title: t('process.step1.title'),
+    description: t('process.step1.desc'),
+    icon: 'chat',
+  },
+  {
+    number: '02',
+    title: t('process.step2.title'),
+    description: t('process.step2.desc'),
+    icon: 'search',
+  },
+  {
+    number: '03',
+    title: t('process.step3.title'),
+    description: t('process.step3.desc'),
+    icon: 'gear',
+  },
+  {
+    number: '04',
+    title: t('process.step4.title'),
+    description: t('process.step4.desc'),
+    icon: 'check',
+  },
+];
+
+// Ciclo: 4s. Cada segmento llena en ~1s (25%), luego se apaga.
+// Delays negativos para sincronía perfecta desde el frame 0.
+const segmentDelays = ['0s', '-2.67s', '-1.33s'];
+---
+
+<section id="metodologia" class="section-padding bg-navy" aria-label={lang === 'en' ? 'Our work methodology' : 'Nuestra metodología de trabajo'}>
+  <div class="container-main">
+
+    <!-- Header de sección -->
+    <div class="text-center max-w-3xl mx-auto mb-16">
+      <p class="text-gold text-xs font-heading font-semibold uppercase tracking-[0.25em] mb-3">
+        {t('process.eyebrow')}
+      </p>
+      <h2 class="font-heading font-bold text-3xl md:text-4xl text-white uppercase tracking-wide">
+        {t('process.title')}
+      </h2>
+      <p class="mt-4 text-white/60 text-lg leading-relaxed">
+        {t('process.subtitle')}
+      </p>
+    </div>
+
+    <!-- Steps grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0">
+      {steps.map((step, i) => (
+        <div class="relative group">
+
+          <!-- Línea conectora con fill animado (solo desktop, excepto el último) -->
+          {i < steps.length - 1 && (
+            <div
+              class="hidden lg:block absolute z-0"
+              style="top: 4.5rem; left: calc(50% + 2.5rem); width: calc(100% - 5rem);"
+              aria-hidden="true"
+            >
+              <!-- Track de fondo -->
+              <div class="relative h-0.5 bg-white/10 overflow-hidden rounded-full">
+                <!-- Fill animado -->
+                <div
+                  class="timeline-fill absolute inset-0 bg-gradient-to-r from-gold/50 via-gold to-gold/70"
+                  style={`animation-delay: ${segmentDelays[i]}`}
+                ></div>
+              </div>
+            </div>
+          )}
+
+          <!-- Card del paso -->
+          <div class="relative z-10 p-6 lg:p-8 flex flex-col items-center text-center h-full">
+
+            <!-- Número grande decorativo -->
+            <div
+              class="absolute top-4 right-4 font-heading font-bold text-6xl text-white/5 leading-none select-none"
+              aria-hidden="true"
+            >
+              {step.number}
+            </div>
+
+            <!-- Círculo con número -->
+            <div class="w-20 h-20 rounded-full border-2 border-gold/40 flex items-center justify-center mb-6 group-hover:border-gold transition-colors duration-300 bg-white/5">
+              <span class="font-heading font-bold text-xl text-gold">{step.number}</span>
+            </div>
+
+            <!-- Título -->
+            <h3 class="font-heading font-bold text-white text-sm uppercase tracking-widest mb-3">
+              {step.title}
+            </h3>
+
+            <!-- Descripción -->
+            <p class="text-white/50 text-sm leading-relaxed group-hover:text-white/70 transition-colors duration-300">
+              {step.description}
+            </p>
+          </div>
+
+          <!-- Separador mobile/tablet -->
+          {i < steps.length - 1 && (
+            <div class="lg:hidden mx-8 h-px bg-white/10" aria-hidden="true"></div>
+          )}
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+<style>
+  @media (prefers-reduced-motion: no-preference) {
+    .timeline-fill {
+      animation: timelineFill 4s linear infinite;
+    }
+
+    @keyframes timelineFill {
+      /* Fase 1: rellena de izquierda a derecha (0 → 1s) */
+      0%    { clip-path: inset(0 100% 0 0); opacity: 1; }
+      25%   { clip-path: inset(0 0% 0 0);   opacity: 1; }
+      /* Fase 2: pausa breve */
+      30%   { clip-path: inset(0 0% 0 0);   opacity: 0.6; }
+      /* Fase 3: desvanece */
+      33%   { clip-path: inset(0 0% 0 0);   opacity: 0;   }
+      /* Reset invisible → espera el resto del ciclo */
+      33.1% { clip-path: inset(0 100% 0 0); opacity: 0;   }
+      100%  { clip-path: inset(0 100% 0 0); opacity: 0;   }
+    }
+  }
+</style>

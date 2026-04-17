@@ -1,0 +1,129 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import { formatDate } from '@lib/utils';
+
+interface Props {
+  title: string;
+  description: string;
+  publishDate: Date;
+  updatedDate?: Date;
+  author?: string;
+  category?: string;
+  coverImage?: string;
+  tags?: string[];
+  canonicalURL?: string;
+}
+
+const {
+  title,
+  description,
+  publishDate,
+  updatedDate,
+  author = 'MECOL ESTUDIO',
+  category,
+  coverImage,
+  tags = [],
+  canonicalURL,
+} = Astro.props;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  image={coverImage}
+  type="article"
+  publishDate={publishDate}
+  author={author}
+  canonicalURL={canonicalURL}
+>
+  <!-- Article Header -->
+  <section class="bg-navy text-white py-16 md:py-24">
+    <div class="container-main max-w-4xl">
+      <nav aria-label="Breadcrumb" class="mb-6">
+        <ol class="flex items-center gap-2 text-sm text-white/60">
+          <li><a href="/" class="hover:text-white transition-colors">Inicio</a></li>
+          <li><span aria-hidden="true">/</span></li>
+          <li><a href="/novedades" class="hover:text-white transition-colors">Novedades</a></li>
+          <li><span aria-hidden="true">/</span></li>
+          <li class="text-white/80">{title}</li>
+        </ol>
+      </nav>
+
+      {category && (
+        <span class="inline-block bg-gold text-navy text-xs font-heading font-semibold uppercase tracking-wider px-3 py-1 rounded-sm mb-4">
+          {category}
+        </span>
+      )}
+
+      <h1 class="font-heading font-bold text-3xl md:text-4xl lg:text-5xl leading-tight mb-6">
+        {title}
+      </h1>
+
+      <p class="text-white/70 text-lg mb-6 leading-relaxed">
+        {description}
+      </p>
+
+      <div class="flex flex-wrap items-center gap-4 text-sm text-white/60">
+        <span>Por <strong class="text-white/80">{author}</strong></span>
+        <span aria-hidden="true">·</span>
+        <time datetime={publishDate.toISOString()}>
+          {formatDate(publishDate)}
+        </time>
+        {updatedDate && updatedDate > publishDate && (
+          <>
+            <span aria-hidden="true">·</span>
+            <span>Actualizado: <time datetime={updatedDate.toISOString()}>{formatDate(updatedDate)}</time></span>
+          </>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <!-- Cover Image -->
+  {coverImage && (
+    <div class="container-main max-w-4xl">
+      <img
+        src={coverImage}
+        alt=""
+        class="w-full aspect-video object-cover rounded-sm shadow-lg"
+        loading="eager"
+        aria-hidden="true"
+      />
+    </div>
+  )}
+
+  <!-- Article Content -->
+  <article class="section-padding">
+    <div class="container-main max-w-4xl">
+      <div class="prose-mecol">
+        <slot />
+      </div>
+
+      <!-- Tags -->
+      {tags.length > 0 && (
+        <footer class="mt-12 pt-8 border-t border-gray-mid">
+          <div class="flex flex-wrap gap-2">
+            {tags.map(tag => (
+              <a
+                href={`/novedades?tag=${encodeURIComponent(tag)}`}
+                class="inline-block bg-gray-light text-gray-text text-sm px-3 py-1 rounded-sm hover:bg-navy hover:text-white transition-colors"
+              >
+                #{tag}
+              </a>
+            ))}
+          </div>
+        </footer>
+      )}
+
+      <!-- Back link -->
+      <div class="mt-8">
+        <a
+          href="/novedades"
+          class="inline-flex items-center gap-2 text-navy-mid hover:text-navy font-medium transition-colors"
+        >
+          &larr; Volver a Novedades
+        </a>
+      </div>
+    </div>
+  </article>
+</BaseLayout>

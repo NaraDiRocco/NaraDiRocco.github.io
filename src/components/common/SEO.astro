@@ -1,0 +1,98 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  canonicalURL?: string;
+  type?: 'website' | 'article';
+  publishDate?: Date;
+  author?: string;
+  jsonLd?: Record<string, unknown>;
+}
+
+const {
+  title,
+  description,
+  image = '/og-default.svg',
+  canonicalURL = Astro.url.href,
+  type = 'website',
+  publishDate,
+  author = 'MECOL ESTUDIO',
+  jsonLd,
+} = Astro.props;
+
+const siteName = 'MECOL ESTUDIO';
+const fullTitle = title === siteName ? siteName : `${title} | ${siteName}`;
+const siteUrl = 'https://mecolestudio.com.ar';
+const absoluteImage = image.startsWith('http') ? image : `${siteUrl}${image}`;
+
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "LegalService",
+  "name": "MECOL ESTUDIO",
+  "description": "Estudio legal, notarial y contable con foco en Punta del Este.",
+  "url": siteUrl,
+  "logo": `${siteUrl}/logo.svg`,
+  "address": {
+    "@type": "PostalAddress",
+    "addressCountry": "UY",
+    "addressRegion": "Maldonado"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "customer service",
+    "availableLanguage": ["Spanish"]
+  }
+};
+
+const articleSchema = type === 'article' ? {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": title,
+  "description": description,
+  "image": absoluteImage,
+  "author": {
+    "@type": "Organization",
+    "name": author
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": siteName,
+    "logo": { "@type": "ImageObject", "url": `${siteUrl}/logo.svg` }
+  },
+  "datePublished": publishDate?.toISOString(),
+  "mainEntityOfPage": canonicalURL
+} : null;
+
+const schemaToRender = jsonLd ?? (type === 'article' ? articleSchema : organizationSchema);
+---
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalURL} />
+
+<!-- Open Graph -->
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={absoluteImage} />
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content={siteName} />
+<meta property="og:url" content={canonicalURL} />
+{type === 'article' && publishDate && (
+  <meta property="article:published_time" content={publishDate.toISOString()} />
+)}
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={absoluteImage} />
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+<!-- JSON-LD -->
+<script type="application/ld+json" set:html={JSON.stringify(schemaToRender)} />

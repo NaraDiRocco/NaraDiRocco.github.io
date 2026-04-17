@@ -1,0 +1,282 @@
+---
+import { Image } from 'astro:assets';
+import logo from '@assets/images/logo.png';
+
+const navLinks = [
+  { href: '/nosotros', label: 'Nosotros' },
+  { href: '/servicios', label: 'Servicios' },
+  { href: '/novedades', label: 'Novedades' },
+  { href: '/contacto', label: 'Contacto' },
+] as const;
+
+const currentPath = Astro.url.pathname;
+
+function isActive(href: string): boolean {
+  if (href === '/') return currentPath === '/';
+  return currentPath.startsWith(href);
+}
+
+// Language switch
+const isEnglish = currentPath.startsWith('/en');
+const currentLang = isEnglish ? 'EN' : 'ES';
+const altLang = isEnglish ? 'ES' : 'EN';
+
+const routeMap: Record<string, string> = {
+  '/':           '/en',
+  '/nosotros':   '/en',
+  '/servicios':  '/en/services',
+  '/novedades':  '/en',
+  '/contacto':   '/en/contact',
+  '/en':         '/',
+  '/en/services':'/servicios',
+  '/en/contact': '/contacto',
+};
+
+const normalizedPath = currentPath.replace(/\/$/, '') || '/';
+const altUrl = routeMap[normalizedPath] ?? (isEnglish ? '/' : '/en');
+const isHomePage = normalizedPath === '/' || normalizedPath === '/en';
+---
+
+<header
+  id="site-header"
+  class:list={[
+    'fixed top-0 left-0 right-0 z-50 transition-all duration-300 pt-[var(--header-top-padding)]',
+    isHomePage ? 'bg-transparent backdrop-blur-0' : 'bg-navy/90 backdrop-blur-md',
+  ]}
+  style="--header-height: 4.5rem; --header-top-padding: 0.75rem;"
+>
+  <div class="container-main">
+    <div class="flex items-center justify-between h-[var(--header-height)]">
+
+      <!-- Logo -->
+      <a
+        href="/"
+        class="flex items-center group"
+        aria-label="MECOL ESTUDIO - Inicio"
+      >
+        <Image
+          src={logo}
+          alt="MECOL ESTUDIO"
+          width={126}
+          height={40}
+          densities={[1.5, 2]}
+          format="png"
+          class="w-auto object-contain"
+          loading="eager"
+        />
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav
+        class="hidden lg:flex items-center gap-1"
+        aria-label="Navegación principal"
+      >
+        {navLinks.map(({ href, label }) => (
+          <a
+            href={href}
+            class={`
+              relative px-4 py-2 text-xs font-heading font-semibold uppercase tracking-widest
+              transition-colors duration-200
+              ${isActive(href)
+                ? 'text-gold'
+                : 'text-white/80 hover:text-white'
+              }
+            `}
+            aria-current={isActive(href) ? 'page' : undefined}
+          >
+            {label}
+            {isActive(href) && (
+              <span
+                class="absolute bottom-0 left-4 right-4 h-0.5 bg-gold rounded-full"
+                aria-hidden="true"
+              />
+            )}
+          </a>
+        ))}
+
+        <!-- CTA Contacto destacado -->
+        <a
+          href="/contacto"
+          class="ml-4 px-5 py-2 bg-gold text-navy text-xs font-heading font-bold uppercase tracking-widest rounded-sm hover:bg-gold-light transition-colors duration-200"
+        >
+          Consulta Gratis
+        </a>
+
+        <!-- Language switch -->
+        <div class="flex items-center gap-1 ml-4 pl-4 border-l border-white/20" aria-label="Cambiar idioma">
+          <span class="text-xs font-heading font-bold uppercase tracking-widest text-gold">{currentLang}</span>
+          <span class="text-white/30 text-xs" aria-hidden="true">|</span>
+          <a
+            href={altUrl}
+            class="text-xs font-heading font-semibold uppercase tracking-widest text-white/50 hover:text-white transition-colors duration-200"
+            aria-label={`Cambiar a ${altLang}`}
+          >{altLang}</a>
+        </div>
+      </nav>
+
+      <!-- Mobile: Hamburger Button -->
+      <button
+        id="mobile-menu-toggle"
+        class="lg:hidden relative z-[60] flex flex-col justify-center items-center w-10 h-10 gap-1.5 rounded focus-visible:outline-2 focus-visible:outline-gold"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        aria-label="Abrir menú"
+        type="button"
+      >
+        <span class="hamburger-line w-6 h-0.5 bg-white rounded-full transition-all duration-300 origin-center"></span>
+        <span class="hamburger-line w-6 h-0.5 bg-white rounded-full transition-all duration-300"></span>
+        <span class="hamburger-line w-6 h-0.5 bg-white rounded-full transition-all duration-300 origin-center"></span>
+      </button>
+
+    </div>
+  </div>
+</header>
+
+<!-- Mobile Menu Panel: fullscreen overlay -->
+<div
+  id="mobile-menu"
+  class="lg:hidden hidden fixed inset-0 z-[55] bg-navy flex flex-col"
+  role="dialog"
+  aria-label="Menú de navegación"
+  aria-modal="true"
+>
+  <!-- Header del menú móvil: logo + botón cerrar -->
+  <div class="flex items-center justify-between px-6 shrink-0 border-b border-white/10" style="height: calc(4.5rem + 0.75rem);">
+    <a href="/" aria-label="MECOL ESTUDIO - Inicio">
+      <Image
+        src={logo}
+        alt="MECOL ESTUDIO"
+        width={126}
+        height={40}
+        densities={[1.5, 2]}
+        format="png"
+        class="w-auto object-contain"
+        loading="eager"
+      />
+    </a>
+    <button
+      id="mobile-menu-close"
+      class="flex items-center justify-center w-10 h-10 rounded focus-visible:outline-2 focus-visible:outline-gold"
+      aria-label="Cerrar menú"
+      type="button"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  <nav class="flex flex-col items-center justify-center flex-1 gap-1 px-8">
+    {navLinks.map(({ href, label }) => (
+      <a
+        href={href}
+        class={`
+          w-full text-center px-6 py-5 text-2xl font-heading font-semibold uppercase tracking-widest rounded-sm
+          transition-colors duration-200
+          ${isActive(href)
+            ? 'text-gold bg-white/5'
+            : 'text-white/80 hover:text-white hover:bg-white/5'
+          }
+        `}
+        aria-current={isActive(href) ? 'page' : undefined}
+      >
+        {label}
+      </a>
+    ))}
+    <div class="mt-10 pt-6 border-t border-white/10 w-full flex flex-col gap-4 items-center">
+      <a
+        href="/contacto"
+        class="block w-full text-center px-6 py-4 bg-gold text-navy text-base font-heading font-bold uppercase tracking-wider rounded-sm hover:bg-gold-light transition-colors duration-200"
+      >
+        Consulta Gratis
+      </a>
+      <!-- Language switch mobile -->
+      <div class="flex items-center justify-center gap-3 py-1" aria-label="Cambiar idioma">
+        <span class="text-sm font-heading font-bold uppercase tracking-widest text-gold">{currentLang}</span>
+        <span class="text-white/30" aria-hidden="true">|</span>
+        <a
+          href={altUrl}
+          class="text-sm font-heading font-semibold uppercase tracking-widest text-white/50 hover:text-white transition-colors duration-200"
+          aria-label={`Cambiar a ${altLang}`}
+        >{altLang}</a>
+      </div>
+    </div>
+  </nav>
+</div>
+
+<!-- Spacer para que el contenido no quede debajo del header fijo -->
+{!isHomePage && <div class="h-[calc(var(--header-height)+var(--header-top-padding))]" aria-hidden="true"></div>}
+
+<script>
+  const toggle = document.getElementById('mobile-menu-toggle');
+  const closeBtn = document.getElementById('mobile-menu-close');
+  const menu = document.getElementById('mobile-menu');
+  const lines = toggle?.querySelectorAll('.hamburger-line');
+
+  function openMenu() {
+    menu?.classList.remove('hidden');
+    toggle?.setAttribute('aria-expanded', 'true');
+    toggle?.setAttribute('aria-label', 'Cerrar menú');
+    lines?.[0]?.classList.add('rotate-45', 'translate-y-2');
+    lines?.[1]?.classList.add('opacity-0');
+    lines?.[2]?.classList.add('-rotate-45', '-translate-y-2');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMenu() {
+    menu?.classList.add('hidden');
+    toggle?.setAttribute('aria-expanded', 'false');
+    toggle?.setAttribute('aria-label', 'Abrir menú');
+    lines?.[0]?.classList.remove('rotate-45', 'translate-y-2');
+    lines?.[1]?.classList.remove('opacity-0');
+    lines?.[2]?.classList.remove('-rotate-45', '-translate-y-2');
+    document.body.style.overflow = '';
+  }
+
+  toggle?.addEventListener('click', () => {
+    const isOpen = menu?.classList.contains('hidden') === false;
+    isOpen ? closeMenu() : openMenu();
+  });
+
+  // Botón X dentro del menú
+  closeBtn?.addEventListener('click', closeMenu);
+
+  // Cerrar al hacer click en un link
+  menu?.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', closeMenu);
+  });
+
+  // Cerrar al hacer resize a desktop
+  window.addEventListener('resize', () => {
+    if (window.innerWidth >= 1024) closeMenu();
+  });
+
+  // Scroll effect
+  const header = document.getElementById('site-header');
+  const isHomePage = header?.classList.contains('bg-transparent');
+
+  const handleScroll = () => {
+    if (!isHomePage) return;
+    if (window.scrollY > 20) {
+      header?.classList.add('scrolled');
+    } else {
+      header?.classList.remove('scrolled');
+    }
+  };
+
+  window.addEventListener('scroll', handleScroll, { passive: true });
+  handleScroll();
+</script>
+
+<style>
+  #site-header {
+    background-color: transparent;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+
+  #site-header.scrolled {
+    background-color: var(--color-navy);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+</style>
