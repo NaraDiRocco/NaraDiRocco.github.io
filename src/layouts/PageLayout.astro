@@ -22,8 +22,8 @@ const {
 
 <BaseLayout {...baseProps}>
   {(pageTitle || (breadcrumb && breadcrumb.length > 0)) && (
-    <section class="bg-navy text-white py-16 md:py-24">
-      <div class="container-main">
+    <section class="bg-navy text-white pt-22 md:pt-26 pb-6 md:pb-8 min-h-[320px] md:min-h-[400px] flex items-end justify-start">
+      <div class="container-main w-full pb-2 md:pb-3 text-left">
         {breadcrumb && breadcrumb.length > 0 && (
           <nav aria-label="Breadcrumb" class="mb-4">
             <ol class="flex flex-wrap items-center gap-2 text-sm text-white/60">

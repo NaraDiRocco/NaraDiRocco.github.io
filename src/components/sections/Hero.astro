@@ -11,10 +11,12 @@ interface Props {
 const { lang = 'es' } = Astro.props;
 const t = useTranslations(lang);
 
-const servicesUrl = lang === 'en' ? '/en/services' : '/servicios';
+const servicesUrl = lang === 'en' ? '/en/services' : lang === 'pt' ? '/pt/servicos' : '/servicios';
 const typewriterWords = lang === 'en'
   ? ['real estate', 'notarial matters', 'accounting', 'investments', 'litigation']
-  : ['real estate', 'escribanía', 'contabilidad', 'inversiones', 'litigios'];
+  : lang === 'pt'
+    ? ['real estate', 'escriturações', 'contabilidade', 'investimentos', 'litígios']
+    : ['real estate', 'escribanía', 'contabilidad', 'inversiones', 'litigios'];
 ---
 
 <section
@@ -54,10 +56,10 @@ const typewriterWords = lang === 'en'
 
       <!-- Título principal -->
       <h1 class="font-heading font-bold text-4xl md:text-5xl lg:text-[3.5rem] leading-[1.1] text-white uppercase tracking-wide mb-6 text-center">
-        {lang === 'en' ? 'Integrated support' : 'Acompañamiento integral'}
+        {lang === 'en' ? 'Integrated support' : lang === 'pt' ? 'Assessoria integrada' : 'Acompañamiento integral'}
         <br />
         <span class="inline-flex items-baseline justify-center gap-3 whitespace-nowrap">
-          <span>{lang === 'en' ? 'for' : 'en'}</span>
+          <span>{lang === 'en' ? 'for' : lang === 'pt' ? 'em' : 'en'}</span>
           <span class="typewriter-slot text-gold">
             <span id="typewriter"></span><span class="typewriter-cursor">|</span>
           </span>
@@ -104,7 +106,7 @@ const typewriterWords = lang === 'en'
         </div>
         <div class="w-px h-10 bg-white/10" aria-hidden="true"></div>
         <div class="text-center">
-          <p class="font-heading font-bold text-2xl text-gold">6</p>
+          <p class="font-heading font-bold text-2xl text-gold">10</p>
           <p class="text-white/50 text-xs uppercase tracking-wider mt-1">{t('hero.stat.areas')}</p>
         </div>
       </div>

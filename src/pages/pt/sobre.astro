@@ -1,0 +1,143 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+import { getCollection } from 'astro:content';
+
+const members = await getCollection('team');
+const sorted = members.sort((a, b) => a.data.order - b.data.order);
+
+const teamBio: Record<string, string[]> = {
+  'fundador': [
+    'Sou Escrivão Público formado pela Faculdade de Direito do CLAEH, com mais de seis anos de prática profissional. Como diretor e fundador da firma, sou especializado em real estate e direito civil, com base em Punta del Este.',
+    'Durante três anos integrei a cátedra de Direito das Obrigações na Universidade CLAEH, experiência que consolidou minha formação acadêmica e minha visão do direito aplicado. Também tenho formação em blockchain e contratos inteligentes.',
+    'Assessoro clientes de toda a América Latina, com foco especial em investidores argentinos que escolhem o Uruguai para seus projetos, acompanhando cada empreendimento imobiliário desde o início até a conclusão com segurança jurídica.',
+    'Falo espanhol, inglês e português fluentemente, o que me permite oferecer um atendimento personalizado a clientes de diferentes origens.',
+  ],
+  'juan-gallegos-prieto': [
+    'Escrivão Público com sólida experiência em assessoria notarial estratégica, segurança jurídica e operações imobiliárias.',
+    'Orientado a oferecer soluções eficientes, com abordagem próxima, prática e atenção personalizada em cada etapa do processo.',
+  ],
+  'diego-mecol-pereira': [
+    'Contador Público formado pela Universidade Católica do Uruguai, com experiência em contabilidade, tributação e gestão financeira.',
+    'Presta assessoria integral a empresas e profissionais, ajudando no cumprimento de obrigações fiscais, otimização da gestão e crescimento empresarial com compromisso e confidencialidade.',
+  ],
+  'guillermo-rodriguez-montenegro': [
+    'Contador Público formado pela Faculdade de Ciências Econômicas e de Administração da Universidade da República (Uruguai), com experiência em matéria tributária, trabalhista e financeira.',
+    'Possui trajetória em banca financeira pública e privada, bem como no setor varejista, e atualmente também atua como executivo no Banco da República.',
+  ],
+  'martina-martinez-ferreira': [
+    'Advogada formada pela Faculdade de Direito da Universidade da República, com experiência em direito civil e atuação em litígios de diversas áreas de prática.',
+    'Seu trabalho se caracteriza por compromisso, confidencialidade e rigor profissional, combinando precisão técnica com atendimento próximo e personalizado.',
+  ],
+};
+---
+
+<PageLayout
+  title="Sobre nós"
+  description="Conheça a MECOL ESTUDIO, nossos valores e nossa equipe multidisciplinar com atuação no Uruguai e na região."
+  pageTitle="Sobre nós"
+  pageSubtitle="Uma visão integrada para decisões importantes."
+  breadcrumb={[{ label: 'Início', href: '/pt' }, { label: 'Sobre nós' }]}
+>
+  <section class="section-padding bg-white">
+    <div class="container-main">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <p class="text-gold-dark text-xs font-heading font-semibold uppercase tracking-[0.25em] mb-3">Nossa história</p>
+          <h2 class="font-heading font-bold text-3xl text-navy uppercase tracking-wide mb-6">Um escritório fundado com propósito</h2>
+          <div class="space-y-4 text-gray-text leading-relaxed">
+            <p>A MECOL ESTUDIO nasceu da convicção de que a assessoria jurídica deve ir além de uma consulta pontual. Desde o início, buscamos construir relações de longo prazo e acompanhar nossos clientes em cada etapa do seu desenvolvimento.</p>
+            <p>Integramos perspectivas jurídicas, notariais e contábeis para oferecer soluções claras, coordenadas e estratégicas para decisões empresariais, patrimoniais e pessoais.</p>
+            <p>Com alcance regional ativo, atendemos clientes em todo o Uruguai e na América Latina, especialmente em temas ligados a real estate, estruturação de operações e assessoria transfronteiriça.</p>
+          </div>
+        </div>
+        <div class="bg-gray-light rounded-sm p-8 border-l-4 border-gold">
+          <blockquote class="text-navy font-heading font-medium text-xl leading-relaxed italic">"Uma visão integrada para decisões importantes."</blockquote>
+          <p class="text-gold-dark text-sm font-heading font-semibold mt-4">— MECOL ESTUDIO</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-padding bg-gray-light">
+    <div class="container-main">
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <h2 class="font-heading font-bold text-3xl text-navy uppercase tracking-wide">Nossa essência</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {[
+          { title: 'Missão', icon: '🎯', text: 'Oferecer assessoria jurídica de excelência para apoiar o crescimento sustentável dos clientes, com visão estratégica e integrada.' },
+          { title: 'Visão', icon: '🔭', text: 'Ser um escritório de referência no Uruguai e na região para clientes que buscam assessoria estratégica, próxima e confiável.' },
+          { title: 'Valores', icon: '⚖️', text: 'Integridade, excelência técnica, compromisso com o cliente, confidencialidade e foco em resultados orientam nosso trabalho.' },
+        ].map(item => (
+          <div class="bg-white rounded-sm p-8 shadow-sm border-t-4 border-gold text-center">
+            <div class="text-4xl mb-4" aria-hidden="true">{item.icon}</div>
+            <h3 class="font-heading font-bold text-navy text-lg uppercase tracking-wide mb-4">{item.title}</h3>
+            <p class="text-gray-text text-sm leading-relaxed">{item.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="team" class="section-padding bg-white">
+    <div class="container-main">
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <p class="text-gold-dark text-xs font-heading font-semibold uppercase tracking-[0.25em] mb-3">Nossa equipe</p>
+        <h2 class="font-heading font-bold text-3xl text-navy uppercase tracking-wide">Profissionais comprometidos com a excelência</h2>
+        <div class="w-16 h-0.5 bg-gold mx-auto mt-6"></div>
+      </div>
+
+      <div class="grid grid-cols-1 gap-8">
+        {sorted.map((member) => {
+          const paragraphs = teamBio[member.id] ?? ['Perfil profissional em atualização.'];
+          const excerpt = paragraphs[0];
+          const detailsId = `team-details-pt-${member.id}`;
+          return (
+            <article class="flex flex-col md:flex-row md:items-stretch gap-8 p-8 bg-gray-light rounded-sm border border-gray-mid">
+              <div class="flex-shrink-0 w-full md:w-56 lg:w-64">
+                <div class="w-full h-64 md:h-full md:min-h-[280px] rounded-sm overflow-hidden bg-navy/10">
+                  {member.data.photo ? (
+                    <img src={member.data.photo} alt={`Foto de ${member.data.name}`} class="w-full h-full object-cover object-top" loading="lazy" />
+                  ) : (
+                    <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-navy to-navy-mid">
+                      <svg class="w-16 h-16 text-white/20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div class="flex-1">
+                <h3 class="font-heading font-bold text-navy text-xl mb-1">{member.data.name}</h3>
+                <p class="text-gold font-heading font-semibold text-xs uppercase tracking-widest mb-1">{member.data.role}</p>
+                <p class="text-gray-text text-sm mb-4">{member.data.specialization}</p>
+                <p class="text-gray-text text-sm leading-relaxed mb-4">{excerpt}</p>
+
+                <div id={detailsId} class="prose-mecol text-sm mb-4 hidden">
+                  {paragraphs.slice(1).map((paragraph) => <p>{paragraph}</p>)}
+                </div>
+
+                <button type="button" class="team-toggle inline-flex items-center gap-1.5 text-navy-mid hover:text-navy text-xs font-heading font-semibold uppercase tracking-wider transition-colors" data-target={detailsId} aria-expanded="false">Ver perfil completo</button>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+</PageLayout>
+
+<script>
+  document.querySelectorAll('.team-toggle').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const targetId = btn.getAttribute('data-target');
+      if (!targetId) return;
+      const details = document.getElementById(targetId);
+      if (!details) return;
+
+      const isHidden = details.classList.contains('hidden');
+      details.classList.toggle('hidden');
+      btn.setAttribute('aria-expanded', isHidden ? 'true' : 'false');
+      btn.textContent = isHidden ? 'Ocultar perfil completo' : 'Ver perfil completo';
+    });
+  });
+</script>

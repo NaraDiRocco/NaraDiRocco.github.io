@@ -1,0 +1,145 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+import { getCollection } from 'astro:content';
+
+const services = await getCollection('services', ({ data }) => !data.draft);
+
+const enContent: Record<string, { title: string; short: string; body: string[] }> = {
+  '01-notarial-real-estate': {
+    title: 'Notarial / Real Estate',
+    short: 'Comprehensive real estate and notarial support for local and international investors in Uruguay.',
+    body: [
+      'We advise local and international investors across the full scope of real estate and notarial transactions in Uruguay.',
+      'Our practice includes title review, legal and registry due diligence, drafting of purchase commitments, reservation agreements and related documents, as well as execution of deeds for transfer of ownership, mortgages, creation of limited real rights and horizontal property structures.',
+      'We also assist in the structuring of real estate investments, evaluating the most efficient acquisition vehicle from both tax and asset-protection perspectives, with strong experience in Punta del Este, Montevideo and Uruguay’s eastern coastal areas.',
+    ],
+  },
+  '02-residencias': {
+    title: 'Residency',
+    short: 'End-to-end legal and tax residency support in Uruguay for individuals and families.',
+    body: [
+      'We provide comprehensive advisory to foreign individuals and families seeking legal and tax residency in Uruguay.',
+      'We assess the most suitable path for each profile, including permanent residency, temporary residency, MERCOSUR regime, investment-based residency and pensioner-specific options.',
+      'We manage the full process before immigration, foreign affairs and tax authorities, and advise on the tax holiday framework under Decree 510/011 and related regulations for new tax residents.',
+    ],
+  },
+  '03-servicios-contables': {
+    title: 'Accounting Services',
+    short: 'Full accounting, tax and payroll support with a preventive and compliance-focused approach.',
+    body: [
+      'We provide comprehensive accounting services for individuals, companies and non-profit entities.',
+      'Our work includes monthly tax filings, financial statements (with or without audit reports), payroll and social security calculations, bank reconciliations and formal compliance obligations before DGI, BPS, BCU and other control agencies.',
+      'Our preventive approach helps anticipate contingencies and optimize tax burden within the applicable legal framework.',
+    ],
+  },
+  '04-compliance': {
+    title: 'Compliance',
+    short: 'Regulatory compliance programs tailored to each client’s AML/CFT risk profile.',
+    body: [
+      'We design, implement and monitor compliance programs tailored to each client’s risk profile, with special focus on anti-money laundering and counter-terrorism financing rules.',
+      'We advise both financial and non-financial obligated entities, including real estate firms, notaries, accountants, lawyers, casinos and general companies.',
+      'Our support covers internal manuals, KYC due diligence, staff training, internal audits and reporting duties before the Financial Information and Analysis Unit (UIAF) of the Central Bank of Uruguay.',
+    ],
+  },
+  '05-inversiones': {
+    title: 'Investments',
+    short: 'Investment structuring with tax efficiency and asset protection at the core.',
+    body: [
+      'We advise on structuring and channeling domestic and foreign investments in Uruguay, with emphasis on tax efficiency and asset protection.',
+      'Our practice includes support in projects under investment promotion laws, free zones, ports and other sector-specific incentive regimes.',
+      'We also advise on the formation of investment vehicles, holding companies, administrative and guarantee trusts, and ownership structures for movable and real estate assets.',
+    ],
+  },
+  '06-derecho-de-familia': {
+    title: 'Family Law',
+    short: 'Personal and estate-oriented family law advisory with focus on practical solutions.',
+    body: [
+      'We assist clients in personal and estate-related family law matters, with emphasis on negotiated solutions and preservation of family relationships.',
+      'Our practice covers divorce and separation proceedings, marital agreements and property regimes, concubinage matters, child support, custody, visitation, parental authority and succession planning.',
+      'We represent clients before Family Courts and advise on prenuptial agreements and separation settlements.',
+    ],
+  },
+  '07-derecho-del-trabajo': {
+    title: 'Labor Law',
+    short: 'Comprehensive labor advisory for employers and employees across individual and collective matters.',
+    body: [
+      'We advise employers and employees on all key individual and collective labor matters.',
+      'Our practice includes employment contracts, internal regulations and corporate policies, telework frameworks, restructuring and termination support, labor settlement calculations and litigation strategy.',
+      'We represent clients before labor authorities, wage councils, labor inspections and labor courts, including mandatory pre-conciliation proceedings.',
+    ],
+  },
+  '08-societario': {
+    title: 'Corporate Law',
+    short: 'Company setup, reorganization and governance across the full corporate lifecycle.',
+    body: [
+      'We support entrepreneurs, shareholders and companies throughout the entire corporate lifecycle.',
+      'Our work includes incorporation of SAS, LLC and corporations, as well as amendments, reorganizations, mergers, spin-offs, transformations, dissolution and liquidation.',
+      'We advise on M&A transactions, shareholder agreements, corporate governance, directors’ duties and compliance before commercial and corporate registries.',
+    ],
+  },
+  '09-tributario': {
+    title: 'Tax Law',
+    short: 'Domestic and international tax planning and defense for individuals and companies.',
+    body: [
+      'We provide comprehensive domestic and international tax advisory for resident and non-resident individuals and legal entities.',
+      'Our work includes binding tax consultations, representation in administrative and tax litigation proceedings, and support during audits and tax inspections.',
+      'We also advise on double taxation treaties and international tax transparency regimes, including CRS, FATCA and BEPS-related frameworks.',
+    ],
+  },
+  '10-derecho-civil': {
+    title: 'Civil Law',
+    short: 'Comprehensive advisory and representation in civil litigation, contracts and civil liability matters.',
+    body: [
+      'We advise and represent clients in the full range of civil proceedings and civil legal operations, in both contentious and non-contentious matters.',
+      'Our practice includes judicial and compulsory deed execution linked to registered and non-registered promises of transfer, extinctive and acquisitive prescription proceedings for property regularization, and reivindicatory, possessory and interdict actions.',
+      'We also assist in contractual and tort civil liability claims aimed at compensation for damages arising from breach of obligations or unlawful acts, as well as drafting and execution of all types of civil contracts.',
+    ],
+  },
+};
+
+export async function getStaticPaths() {
+  const services = await getCollection('services', ({ data }) => !data.draft);
+  return services.map((service) => ({ params: { id: service.id } }));
+}
+
+const { id } = Astro.params;
+const content = id ? enContent[id] : null;
+
+if (!content) {
+  throw new Error('Service not found');
+}
+---
+
+<PageLayout
+  title={content.title}
+  description={content.short}
+  pageTitle={content.title}
+  pageSubtitle={content.short}
+  breadcrumb={[
+    { label: 'Home', href: '/en' },
+    { label: 'Practice Areas', href: '/en/services' },
+    { label: content.title },
+  ]}
+>
+  <section class="section-padding bg-white">
+    <div class="container-main max-w-4xl">
+      <div class="prose-mecol">
+        {content.body.map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+
+      <div class="mt-12 pt-8 border-t border-gray-mid flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+        <a
+          href="https://wa.me/5491100000000"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 px-6 py-3 bg-navy text-white text-sm font-heading font-bold uppercase tracking-widest rounded-sm hover:bg-navy-mid transition-colors"
+        >
+          Inquire about this area
+        </a>
+        <a href="/en/services" class="inline-flex items-center gap-2 text-navy-mid hover:text-navy text-sm font-heading font-semibold transition-colors">
+          ← View all practice areas
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

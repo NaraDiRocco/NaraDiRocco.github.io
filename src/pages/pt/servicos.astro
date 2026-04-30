@@ -21,11 +21,11 @@ const t: Record<string, { title: string; short: string }> = {
 ---
 
 <PageLayout
-  title="Practice Areas"
-  description="MECOL ESTUDIO practice areas: notarial and real estate, residency, accounting services, compliance, investments, family, labor, corporate and tax law."
-  pageTitle="Practice Areas"
-  pageSubtitle="Integrated advisory in legal, notarial, accounting and asset-related matters."
-  breadcrumb={[{ label: 'Home', href: '/en' }, { label: 'Practice Areas' }]}
+  title="Áreas de prática"
+  description="Áreas de prática da MECOL ESTUDIO: notarial e real estate, residências, serviços contábeis, compliance, investimentos, família, trabalho, societário, tributário e direito civil."
+  pageTitle="Áreas de prática"
+  pageSubtitle="Assessoria integrada em temas jurídicos, notariais, contábeis e patrimoniais."
+  breadcrumb={[{ label: 'Início', href: '/pt' }, { label: 'Áreas de prática' }]}
 >
   <section class="section-padding bg-white">
     <div class="container-main">
@@ -34,7 +34,7 @@ const t: Record<string, { title: string; short: string }> = {
           const copy = t[service.id] ?? { title: service.data.title, short: service.data.shortDescription };
           return (
             <a
-              href={`/en/services/${service.id}`}
+              href={`/pt/servicos/${service.id}`}
               class="group area-card bg-white border border-gray-mid rounded-sm p-8 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 border-b-2 border-b-gold flex flex-col"
               style={`--delay: ${i * 90}ms`}
             >
@@ -44,7 +44,7 @@ const t: Record<string, { title: string; short: string }> = {
               <h2 class="font-heading font-bold text-navy text-base uppercase tracking-wide mb-3">{copy.title}</h2>
               <p class="text-gray-text text-sm leading-relaxed flex-1">{copy.short}</p>
               <div class="mt-5 flex items-center gap-1.5 text-navy-mid group-hover:text-gold text-xs font-heading font-semibold uppercase tracking-wider transition-colors">
-                View area
+                Ver área
                 <svg class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                   <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/>
                 </svg>
@@ -58,9 +58,9 @@ const t: Record<string, { title: string; short: string }> = {
 
   <section class="section-padding-sm bg-navy">
     <div class="container-main text-center">
-      <h2 class="font-heading font-bold text-white text-2xl uppercase tracking-wide mb-4">Need tailored advice?</h2>
-      <p class="text-white/60 mb-8">Message us and we will guide you according to your goals and context.</p>
-      <a href="/en/contact" class="consultar-btn inline-flex items-center gap-2 px-8 py-4 bg-gold text-navy text-sm font-heading font-bold uppercase tracking-widest rounded-sm hover:bg-gold-light transition-colors">Contact us now</a>
+      <h2 class="font-heading font-bold text-white text-2xl uppercase tracking-wide mb-4">Precisa de assessoria personalizada?</h2>
+      <p class="text-white/60 mb-8">Escreva para nós e orientaremos você de acordo com seu contexto e objetivos.</p>
+      <a href="/pt/contato" class="consultar-btn inline-flex items-center gap-2 px-8 py-4 bg-gold text-navy text-sm font-heading font-bold uppercase tracking-widest rounded-sm hover:bg-gold-light transition-colors">Consultar agora</a>
     </div>
     <div class="w-[80%] mx-auto mt-14 border-b border-white/20" aria-hidden="true"></div>
   </section>

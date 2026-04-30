@@ -1,0 +1,55 @@
+---
+import BlogLayout from '@layouts/BlogLayout.astro';
+
+const articleMap: Record<string, {
+  title: string;
+  description: string;
+  publishDate: Date;
+  author: string;
+  category: string;
+  tags: string[];
+  body: string[];
+}> = {
+  'o-que-e-uma-sas': {
+    title: 'O que é uma Sociedade por Ações Simplificada (SAS) e por que é destaque no empreendedorismo?',
+    description: 'Cinco anos após sua implementação, a SAS se consolidou como uma estrutura societária ágil, flexível e eficiente para empreender no Uruguai.',
+    publishDate: new Date('2026-04-30'),
+    author: 'MECOL ESTUDIO',
+    category: 'Notícias',
+    tags: ['sas', 'societario', 'empreendedorismo', 'uruguai'],
+    body: [
+      'Este ano, a Sociedade por Ações Simplificada (SAS) completa cinco anos, sendo um bom momento para entender por que se tornou uma das estruturas mais práticas para empreender no Uruguai.',
+      'A SAS surgiu de uma tendência global de flexibilização das estruturas empresariais e combina vantagens tradicionalmente presentes em sociedades anônimas, sociedades de responsabilidade limitada e modelos unipessoais.',
+      'Entre seus principais pontos fortes estão a constituição rápida, baixas barreiras de entrada, ampla flexibilidade de objeto social e proteção de responsabilidade dos acionistas limitada aos seus aportes.',
+      'Uma SAS pode ser constituída por uma ou mais pessoas físicas ou jurídicas, locais ou estrangeiras, com governança e regras internas altamente adaptáveis.',
+      'Para empreendedores, isso significa um marco jurídico que apoia crescimento e mudança desde as etapas iniciais, mantendo estruturas formais claras e executáveis.',
+      'No campo tributário, o regime aplicável depende de cada atividade e estrutura, mas a SAS é frequentemente escolhida por permitir planejamento prático e operação em conformidade desde o início.',
+      'Também é um veículo útil para transformar estruturas pré-existentes em um formato mais moderno e escalável.',
+      'Em resumo, a SAS segue sendo uma das opções jurídicas mais dinâmicas para iniciar ou reestruturar operações no Uruguai com um modelo prático, flexível e juridicamente sólido.',
+    ],
+  },
+};
+
+export function getStaticPaths() {
+  return [{ params: { id: 'o-que-e-uma-sas' } }];
+}
+
+const { id } = Astro.params;
+const article = id ? articleMap[id] : null;
+
+if (!article) {
+  throw new Error('Article not found');
+}
+---
+
+<BlogLayout
+  lang="pt"
+  title={article.title}
+  description={article.description}
+  publishDate={article.publishDate}
+  author={article.author}
+  category={article.category}
+  tags={article.tags}
+>
+  {article.body.map((paragraph) => <p>{paragraph}</p>)}
+</BlogLayout>

@@ -1,0 +1,140 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+import { getCollection } from 'astro:content';
+
+const services = await getCollection('services', ({ data }) => !data.draft);
+
+const ptContent: Record<string, { title: string; short: string; body: string[] }> = {
+  '01-notarial-real-estate': {
+    title: 'Notarial / Real Estate',
+    short: 'Assessoria completa em operações imobiliárias e notariais para investidores locais e internacionais no Uruguai.',
+    body: [
+      'Assessoramos investidores locais e estrangeiros em toda a cadeia de operações imobiliárias e notariais no Uruguai.',
+      'Nossa prática inclui estudo de títulos, due diligence legal e registral, redação de promessas de compra e venda e documentos de reserva, além da outorga de escrituras de transferência de domínio, hipotecas e demais direitos reais.',
+      'Também auxiliamos na estruturação do investimento imobiliário, avaliando o veículo de aquisição mais eficiente sob a ótica tributária e de proteção patrimonial, com experiência destacada em Punta del Este, Montevidéu e litoral leste.',
+    ],
+  },
+  '02-residencias': {
+    title: 'Residências',
+    short: 'Assessoria integral para residência legal e fiscal no Uruguai para pessoas e famílias estrangeiras.',
+    body: [
+      'Prestamos assessoria completa para obtenção de residência legal e fiscal no Uruguai para pessoas físicas e grupos familiares estrangeiros.',
+      'Avaliamos a via mais adequada para cada perfil: residência permanente, temporária, regime MERCOSUL, residência por investimento e modalidades aplicáveis a aposentados e pensionistas.',
+      'Gerenciamos o trâmite perante os órgãos competentes e orientamos também sobre o regime de tax holiday e normas correlatas para novos residentes fiscais.',
+    ],
+  },
+  '03-servicios-contables': {
+    title: 'Serviços Contábeis',
+    short: 'Gestão contábil, tributária e trabalhista com foco preventivo e em conformidade.',
+    body: [
+      'Oferecemos serviços contábeis integrais para pessoas físicas, sociedades empresariais e entidades sem fins lucrativos.',
+      'Nossa atuação inclui apuração mensal de tributos, elaboração de demonstrações contábeis, folha de pagamento, contribuições de seguridade social, conciliações bancárias e cumprimento de obrigações formais perante os órgãos de controle.',
+      'Trabalhamos com abordagem preventiva para antecipar contingências e otimizar a carga tributária dentro do marco regulatório vigente.',
+    ],
+  },
+  '04-compliance': {
+    title: 'Compliance',
+    short: 'Programas de conformidade regulatória adaptados ao perfil de risco de cada cliente.',
+    body: [
+      'Desenhamos, implementamos e monitoramos programas de compliance com foco em prevenção à lavagem de ativos e financiamento do terrorismo.',
+      'Assessoramos sujeitos obrigados financeiros e não financeiros, incluindo imobiliárias, tabeliães, contadores, advogados, cassinos e empresas em geral.',
+      'O suporte abrange manuais internos, due diligence de clientes e contrapartes (KYC), treinamento de equipes, auditorias internas e obrigações reportáveis perante autoridades competentes.',
+    ],
+  },
+  '05-inversiones': {
+    title: 'Investimentos',
+    short: 'Estruturação de investimentos com eficiência tributária e proteção patrimonial.',
+    body: [
+      'Assessoramos na estruturação e canalização de investimentos nacionais e estrangeiros no Uruguai.',
+      'Nossa prática inclui suporte em projetos amparados por regimes promocionais, zonas francas, portos e demais incentivos setoriais.',
+      'Também orientamos na constituição de veículos de investimento, holdings, fideicomissos e estruturas de titularidade de ativos mobiliários e imobiliários.',
+    ],
+  },
+  '06-derecho-de-familia': {
+    title: 'Direito de Família',
+    short: 'Assessoria pessoal e patrimonial em direito de família com foco em soluções práticas.',
+    body: [
+      'Auxiliamos clientes em questões pessoais e patrimoniais do direito de família, com enfoque em soluções negociadas e preservação de vínculos.',
+      'Atuamos em divórcios, separações, pactos matrimoniais, uniões estáveis, pensões, guarda, visitas, poder parental e planejamento sucessório.',
+      'Também representamos clientes em processos perante a Justiça de Família e orientamos na formalização de acordos pré-nupciais e de separação.',
+    ],
+  },
+  '07-derecho-del-trabajo': {
+    title: 'Direito do Trabalho',
+    short: 'Assessoria trabalhista integral para empregadores e trabalhadores em temas individuais e coletivos.',
+    body: [
+      'Assessoramos empregadores e trabalhadores em todos os aspectos individuais e coletivos das relações de trabalho.',
+      'Nossa prática inclui contratos, políticas internas, teletrabalho, reestruturações, desligamentos, cálculos trabalhistas e estratégia em conflitos.',
+      'Representamos clientes perante autoridades trabalhistas e judiciais, incluindo instâncias de conciliação obrigatória.',
+    ],
+  },
+  '08-societario': {
+    title: 'Societário',
+    short: 'Constituição, reorganização e governança corporativa em todo o ciclo societário.',
+    body: [
+      'Apoiamos empresários, acionistas e sociedades ao longo de todo o ciclo de vida societário.',
+      'Nossa atuação abrange constituição, modificações, fusões, cisões, transformações, dissolução e liquidação de sociedades.',
+      'Também assessoramos operações de M&A, acordos de acionistas, governança corporativa e obrigações registrárias perante órgãos competentes.',
+    ],
+  },
+  '09-tributario': {
+    title: 'Tributário',
+    short: 'Planejamento e contencioso tributário nacional e internacional para pessoas e empresas.',
+    body: [
+      'Prestamos assessoria tributária integral em âmbito nacional e internacional para residentes e não residentes.',
+      'Nossa prática inclui consultas vinculantes, representação em procedimentos administrativos e contencioso-tributários, além de suporte em fiscalizações.',
+      'Também orientamos sobre tratados para evitar dupla tributação e regimes de transparência fiscal internacional, como CRS, FATCA e BEPS.',
+    ],
+  },
+  '10-derecho-civil': {
+    title: 'Direito Civil',
+    short: 'Assessoria e patrocínio integral em processos civis, contratos e responsabilidade civil.',
+    body: [
+      'Assessoramos e patrocinamos nossos clientes em toda a gama de processos e operações de natureza civil, tanto na esfera contenciosa quanto voluntária.',
+      'Nossa prática abrange escriturações judiciais e forçadas, prescrição extintiva e aquisitiva para regularização dominial de imóveis, além de ações reivindicatórias, possessórias e interditais.',
+      'Também atuamos em ações de responsabilidade civil contratual e extracontratual para reparação de danos, bem como na redação e execução de contratos civis em geral.',
+    ],
+  },
+};
+
+export async function getStaticPaths() {
+  const services = await getCollection('services', ({ data }) => !data.draft);
+  return services.map((service) => ({ params: { id: service.id } }));
+}
+
+const { id } = Astro.params;
+const content = id ? ptContent[id] : null;
+
+if (!content) {
+  throw new Error('Service not found');
+}
+---
+
+<PageLayout
+  title={content.title}
+  description={content.short}
+  pageTitle={content.title}
+  pageSubtitle={content.short}
+  breadcrumb={[
+    { label: 'Início', href: '/pt' },
+    { label: 'Áreas de prática', href: '/pt/servicos' },
+    { label: content.title },
+  ]}
+>
+  <section class="section-padding bg-white">
+    <div class="container-main max-w-4xl">
+      <div class="prose-mecol">
+        {content.body.map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+
+      <div class="mt-12 pt-8 border-t border-gray-mid flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+        <a href="https://wa.me/5491100000000" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 bg-navy text-white text-sm font-heading font-bold uppercase tracking-widest rounded-sm hover:bg-navy-mid transition-colors">
+          Consultar sobre esta área
+        </a>
+        <a href="/pt/servicos" class="inline-flex items-center gap-2 text-navy-mid hover:text-navy text-sm font-heading font-semibold transition-colors">
+          ← Ver todas as áreas
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

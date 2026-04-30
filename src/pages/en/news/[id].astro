@@ -1,0 +1,55 @@
+---
+import BlogLayout from '@layouts/BlogLayout.astro';
+
+const articleMap: Record<string, {
+  title: string;
+  description: string;
+  publishDate: Date;
+  author: string;
+  category: string;
+  tags: string[];
+  body: string[];
+}> = {
+  'what-is-a-sas': {
+    title: 'What Is a Simplified Stock Company (SAS) and Why Is It a Startup Favorite?',
+    description: 'Five years after its implementation, the SAS has consolidated as an agile, flexible and efficient legal vehicle for entrepreneurship in Uruguay.',
+    publishDate: new Date('2026-04-30'),
+    author: 'MECOL ESTUDIO',
+    category: 'News',
+    tags: ['sas', 'corporate-law', 'entrepreneurship', 'uruguay'],
+    body: [
+      'This year, the Simplified Stock Company (SAS) turns five, making it a good time to understand why it became one of the most practical legal structures for entrepreneurship in Uruguay.',
+      'The SAS emerged from a global trend toward more flexible business structures. It combines key benefits traditionally found in corporations, limited liability companies and sole-owner structures.',
+      'Its main strengths include fast incorporation, low entry barriers, broad flexibility in corporate purpose, and liability protection for shareholders limited to their contributions.',
+      'A SAS can be formed by one or more local or foreign individuals or entities, and it can operate with highly adaptable governance and internal arrangements.',
+      'For entrepreneurs, this means a legal framework that supports growth and change from early stages while keeping formal structures clear and enforceable.',
+      'In tax terms, the applicable regime depends on each activity and structure, but the SAS is frequently chosen because it enables practical planning and compliant operation from the start.',
+      'It is also a useful vehicle for transforming pre-existing structures such as informal ventures or other company types into a more modern and scalable format.',
+      'In short, the SAS remains one of the most dynamic legal options for those seeking to launch or restructure business operations in Uruguay under a practical, flexible and legally robust model.',
+    ],
+  },
+};
+
+export function getStaticPaths() {
+  return [{ params: { id: 'what-is-a-sas' } }];
+}
+
+const { id } = Astro.params;
+const article = id ? articleMap[id] : null;
+
+if (!article) {
+  throw new Error('Article not found');
+}
+---
+
+<BlogLayout
+  lang="en"
+  title={article.title}
+  description={article.description}
+  publishDate={article.publishDate}
+  author={article.author}
+  category={article.category}
+  tags={article.tags}
+>
+  {article.body.map((paragraph) => <p>{paragraph}</p>)}
+</BlogLayout>

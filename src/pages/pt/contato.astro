@@ -1,0 +1,15 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+---
+
+<PageLayout title="Contato" description="Fale com a MECOL ESTUDIO." pageTitle="Contato" pageSubtitle="Estamos disponíveis para ouvir você." breadcrumb={[{ label: 'Início', href: '/pt' }, { label: 'Contato' }] }>
+  <section class="section-padding bg-white">
+    <div class="container-main max-w-2xl text-center">
+      <h2 class="font-heading font-bold text-navy text-2xl uppercase tracking-wide mb-8">Entre em contato</h2>
+      <div class="flex flex-col gap-4">
+        <a href="https://wa.me/5491100000000?text=Ol%C3%A1%2C%20gostaria%20de%20consultar%20sobre%20seus%20servi%C3%A7os%20jur%C3%ADdicos." target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 p-5 bg-navy-mid text-navy rounded-sm hover:bg-navy-light transition-all"><span class="text-white font-heading font-bold uppercase tracking-wide">WhatsApp — Resposta imediata</span></a>
+        <a href="mailto:contacto@mecolestudio.com.ar?subject=Consulta" class="flex items-center gap-4 p-5 bg-gray-light border border-gray-mid rounded-sm hover:bg-white hover:shadow-md transition-all"><span class="text-navy font-heading font-bold uppercase tracking-wide">Email: contacto@mecolestudio.com.ar</span></a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

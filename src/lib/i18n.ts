@@ -1,12 +1,12 @@
 export const defaultLang = 'es' as const;
-export type Lang = 'es' | 'en';
+export type Lang = 'es' | 'en' | 'pt';
 
 export const ui = {
   es: {
     // Nav
     'nav.nosotros': 'Nosotros',
     'nav.equipo': 'Nuestro Equipo',
-    'nav.servicios': 'Servicios',
+    'nav.servicios': 'Áreas de práctica',
     'nav.novedades': 'Novedades',
     'nav.contacto': 'Contacto',
     'nav.cta': 'Consulta Gratis',
@@ -18,7 +18,7 @@ export const ui = {
     'hero.title.line2': 'Para Decisiones',
     'hero.title.line3': 'Importantes',
     'hero.subtitle': 'Brindamos soluciones legales, notariales y contables en Punta del Este, con atención personalizada, enfoque interdisciplinario y agilidad en cada gestión.',
-    'hero.cta.primary': 'Nuestros Servicios',
+    'hero.cta.primary': 'Áreas de práctica',
     'hero.cta.secondary': 'Consultar por WhatsApp',
 
     // Hero stats
@@ -27,10 +27,10 @@ export const ui = {
     'hero.stat.areas': 'Áreas Integradas',
 
     // Sections
-    'services.eyebrow': 'Nuestros Servicios',
-    'services.title': 'Soluciones integrales para decisiones patrimoniales, empresariales y personales',
-    'services.subtitle': 'Articulamos asesoramiento legal, notarial y contable para acompañarte con claridad en operaciones, estructuras, trámites e inversiones en Punta del Este.',
-    'services.cta': 'Ver todos los servicios',
+    'services.eyebrow': 'Áreas de Práctica',
+    'services.title': 'Asesoramiento integral para decisiones patrimoniales, empresariales y personales',
+    'services.subtitle': 'Integramos práctica legal, notarial y contable para acompañarte con criterio técnico, claridad y enfoque estratégico.',
+    'services.cta': 'Ver todas las áreas',
 
     // Work process
     'process.eyebrow': 'Metodología',
@@ -97,7 +97,7 @@ export const ui = {
     // Footer
     'footer.description': 'Soluciones legales, notariales y contables con foco en Punta del Este.',
     'footer.nav': 'Navegación',
-    'footer.services': 'Servicios',
+    'footer.services': 'Áreas de práctica',
     'footer.contact': 'Contacto',
     'footer.rights': 'Todos los derechos reservados.',
 
@@ -114,7 +114,7 @@ export const ui = {
     // Nav
     'nav.nosotros': 'About Us',
     'nav.equipo': 'Our Team',
-    'nav.servicios': 'Services',
+    'nav.servicios': 'Practice Areas',
     'nav.novedades': 'News',
     'nav.contacto': 'Contact',
     'nav.cta': 'Free Consultation',
@@ -126,7 +126,7 @@ export const ui = {
     'hero.title.line2': 'For Important',
     'hero.title.line3': 'Decisions',
     'hero.subtitle': 'We provide legal, notarial and accounting solutions in Punta del Este, with personalized service, interdisciplinary expertise and agile execution.',
-    'hero.cta.primary': 'Our Services',
+    'hero.cta.primary': 'Practice Areas',
     'hero.cta.secondary': 'Contact via WhatsApp',
 
     // Hero stats
@@ -135,10 +135,10 @@ export const ui = {
     'hero.stat.areas': 'Integrated Areas',
 
     // Sections
-    'services.eyebrow': 'Our Services',
+    'services.eyebrow': 'Practice Areas',
     'services.title': 'Integrated solutions for personal, business and investment decisions',
     'services.subtitle': 'We combine legal, notarial and accounting support to guide operations, structures, filings and investments in Punta del Este with clarity.',
-    'services.cta': 'View all services',
+    'services.cta': 'View all practice areas',
 
     // Work process
     'process.eyebrow': 'Methodology',
@@ -205,7 +205,7 @@ export const ui = {
     // Footer
     'footer.description': 'Legal, notarial and accounting solutions with a focus on Punta del Este.',
     'footer.nav': 'Navigation',
-    'footer.services': 'Services',
+    'footer.services': 'Practice Areas',
     'footer.contact': 'Contact',
     'footer.rights': 'All rights reserved.',
 
@@ -217,6 +217,102 @@ export const ui = {
     // SEO defaults
     'seo.home.title': 'MECOL ESTUDIO',
     'seo.home.description': 'Legal, notarial and accounting firm focused on Punta del Este. Integrated support for operations, filings, businesses and investments with personalized service.',
+  },
+  pt: {
+    'nav.nosotros': 'Sobre nós',
+    'nav.equipo': 'Nossa equipe',
+    'nav.servicios': 'Áreas de prática',
+    'nav.novedades': 'Notícias',
+    'nav.contacto': 'Contato',
+    'nav.cta': 'Consulta gratuita',
+
+    'hero.eyebrow': 'Escritório jurídico, notarial e contábil',
+    'hero.title.line1': 'Uma visão',
+    'hero.title.highlight': 'integrada',
+    'hero.title.line2': 'para decisões',
+    'hero.title.line3': 'importantes',
+    'hero.subtitle': 'Oferecemos soluções jurídicas, notariais e contábeis em Punta del Este, com atendimento personalizado, visão interdisciplinar e agilidade em cada gestão.',
+    'hero.cta.primary': 'Áreas de prática',
+    'hero.cta.secondary': 'Consultar no WhatsApp',
+
+    'hero.stat.years': 'Anos de experiência',
+    'hero.stat.clients': 'Clientes atendidos',
+    'hero.stat.areas': 'Áreas integradas',
+
+    'services.eyebrow': 'Áreas de prática',
+    'services.title': 'Assessoria integrada para decisões patrimoniais, empresariais e pessoais',
+    'services.subtitle': 'Integramos prática jurídica, notarial e contábil para orientar operações, estruturas e investimentos com clareza.',
+    'services.cta': 'Ver todas as áreas',
+
+    'process.eyebrow': 'Metodologia',
+    'process.title': 'Nossa forma de trabalho',
+    'process.subtitle': 'Um fluxo simples e organizado para resolver cada gestão jurídica, notarial ou contábil.',
+    'process.step1.title': 'Escuta e diagnóstico',
+    'process.step1.desc': 'Entendemos sua necessidade, o contexto da operação e os prazos para definir o alcance adequado.',
+    'process.step2.title': 'Abordagem interdisciplinar',
+    'process.step2.desc': 'Integramos critérios jurídicos, notariais e contábeis para detectar riscos e definir o melhor caminho.',
+    'process.step3.title': 'Execução ágil',
+    'process.step3.desc': 'Coordenamos documentos, trâmites e acompanhamento com foco em clareza e resultado.',
+    'process.step4.title': 'Fechamento e continuidade',
+    'process.step4.desc': 'Acompanhamos até a conclusão e deixamos base sólida para os próximos passos.',
+
+    'team.eyebrow': 'Conheça nossa equipe',
+    'team.title': 'Profissionais comprometidos com soluções claras e efetivas',
+    'team.subtitle': 'Trabalhamos de forma coordenada para oferecer assessoria jurídica, notarial e contábil com proximidade e critério técnico.',
+    'team.cta': 'Conhecer a equipe completa',
+
+    'trust.eyebrow': 'Por que nos escolher',
+    'trust.title': 'Uma forma de trabalho pensada para apoiar você melhor',
+    'trust.subtitle': 'Valores e resultados que sustentam cada caso.',
+    'trust.stat1.label': 'Anos de experiência',
+    'trust.stat1.desc': 'Experiência aplicada a operações e decisões que exigem respaldo profissional.',
+    'trust.stat2.label': 'Clientes atendidos',
+    'trust.stat2.desc': 'Pessoas, empresas e investidores que buscam atenção próxima e respostas claras.',
+    'trust.stat3.label': 'Áreas integradas',
+    'trust.stat3.desc': 'Conectamos serviços jurídicos, notariais, contábeis e imobiliários para uma resposta completa.',
+    'trust.stat4.label': 'Presença regional',
+    'trust.stat4.desc': 'Apoiamos gestões e operações com foco em Punta del Este e na região.',
+    'trust.pillar1.title': 'Atendimento personalizado',
+    'trust.pillar1.desc': 'Entendemos seu contexto e suas prioridades antes de propor soluções.',
+    'trust.pillar2.title': 'Experiência interdisciplinar',
+    'trust.pillar2.desc': 'Integramos perspectivas para decisões mais sólidas.',
+    'trust.pillar3.title': 'Agilidade nos processos',
+    'trust.pillar3.desc': 'Priorizamos ordem, acompanhamento e resposta rápida.',
+
+    'region.eyebrow': 'Alcance regional',
+    'region.title': 'Atuação e presença na região',
+    'region.description': 'A MECOL ESTUDIO atende clientes no Uruguai e na região, com foco comercial e operacional em Punta del Este e Cone Sul.',
+    'region.countries.label': 'Países com presença',
+    'region.headquarters': 'Sede principal',
+
+    'contact.title': 'Vamos conversar sobre sua próxima gestão',
+    'contact.eyebrow': 'Contato',
+    'contact.description': 'Apoiamos consultas jurídicas, notariais e contábeis com atendimento direto, claro e personalizado.',
+    'contact.address.label': 'Endereço',
+    'contact.address.value': 'Punta del Este, Maldonado, Uruguai',
+    'contact.phone.label': 'Telefone',
+    'contact.hours.label': 'Horário',
+    'contact.hours.value': 'Segunda a sexta: 9:00 – 18:00',
+    'contact.cta.title': 'Inicie sua consulta',
+    'contact.cta.desc': 'Escolha o canal que preferir para nos contar sua necessidade.',
+    'contact.whatsapp': 'Escreva no WhatsApp',
+    'contact.whatsapp.response': 'Resposta imediata',
+    'contact.whatsapp.message': 'Ol%C3%A1%2C%20gostaria%20de%20consultar%20sobre%20seus%20servi%C3%A7os%20jur%C3%ADdicos.',
+    'contact.email': 'Envie um e-mail',
+    'contact.disclaimer': 'A primeira conversa é confidencial e ajuda a orientar o melhor caminho.',
+
+    'footer.description': 'Soluções jurídicas, notariais e contábeis com foco em Punta del Este.',
+    'footer.nav': 'Navegação',
+    'footer.services': 'Áreas de prática',
+    'footer.contact': 'Contato',
+    'footer.rights': 'Todos os direitos reservados.',
+
+    '404.title': 'Página não encontrada',
+    '404.message': 'A página que você procura não existe ou foi movida.',
+    '404.back': '← Voltar ao início',
+
+    'seo.home.title': 'MECOL ESTUDIO',
+    'seo.home.description': 'Escritório jurídico, notarial e contábil com foco em Punta del Este. Assessoria integrada para operações, trâmites, empresas e investimentos.',
   },
 } as const;
 
@@ -238,6 +334,7 @@ export function useTranslations(lang: Lang) {
 export function getLangFromUrl(url: URL): Lang {
   const [, lang] = url.pathname.split('/');
   if (lang === 'en') return 'en';
+  if (lang === 'pt') return 'pt';
   return 'es';
 }
 
@@ -251,9 +348,13 @@ export function getAlternateUrl(url: URL, targetLang: Lang): string {
   if (currentLang === 'es' && targetLang === 'en') {
     // Agrega prefijo /en
     return `/en${pathname}`;
+  } else if (currentLang === 'es' && targetLang === 'pt') {
+    return `/pt${pathname}`;
   } else if (currentLang === 'en' && targetLang === 'es') {
     // Quita prefijo /en
     return pathname.replace(/^\/en/, '') || '/';
+  } else if (currentLang === 'pt' && targetLang === 'es') {
+    return pathname.replace(/^\/pt/, '') || '/';
   }
   return pathname;
 }

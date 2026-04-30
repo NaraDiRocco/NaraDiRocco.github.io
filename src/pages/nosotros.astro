@@ -128,14 +128,22 @@ const sorted = members.sort((a, b) => a.data.order - b.data.order);
         <div class="w-16 h-0.5 bg-gold mx-auto mt-6"></div>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+      <div class="grid grid-cols-1 gap-8">
         {sorted.map(async (member) => {
           const { Content } = await render(member);
+          const firstBlock = member.body.trim().split('\n\n')[0] ?? '';
+          const excerpt = firstBlock
+            .replaceAll('**', '')
+            .replaceAll('*', '')
+            .replaceAll('`', '')
+            .replaceAll('#', '')
+            .trim();
+          const detailsId = `member-details-${member.id}`;
           return (
-            <article class="flex flex-col md:flex-row gap-8 p-8 bg-gray-light rounded-sm">
+            <article class="flex flex-col md:flex-row md:items-stretch gap-8 p-8 bg-gray-light rounded-sm border border-gray-mid">
               <!-- Foto -->
-              <div class="flex-shrink-0">
-                <div class="w-32 h-32 md:w-40 md:h-40 rounded-sm overflow-hidden bg-navy/10">
+              <div class="flex-shrink-0 w-full md:w-56 lg:w-64">
+                <div class="w-full h-64 md:h-full md:min-h-[280px] rounded-sm overflow-hidden bg-navy/10">
                   {member.data.photo ? (
                     <img
                       src={member.data.photo}
@@ -163,31 +171,22 @@ const sorted = members.sort((a, b) => a.data.order - b.data.order);
                 </p>
                 <p class="text-gray-text text-sm mb-4">{member.data.specialization}</p>
 
-                <div class="prose-mecol text-sm mb-4">
+                <p class="text-gray-text text-sm leading-relaxed mb-4">
+                  {excerpt}
+                </p>
+
+                <div id={detailsId} class="prose-mecol text-sm mb-4 hidden">
                   <Content />
                 </div>
 
-                <div class="flex gap-3 mt-4">
-                  {member.data.linkedin && (
-                    <a
-                      href={member.data.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="inline-flex items-center gap-1.5 text-navy-mid hover:text-navy text-xs font-heading font-semibold uppercase tracking-wider transition-colors"
-                      aria-label={`LinkedIn de ${member.data.name}`}
-                    >
-                      LinkedIn →
-                    </a>
-                  )}
-                  {member.data.email && (
-                    <a
-                      href={`mailto:${member.data.email}`}
-                      class="inline-flex items-center gap-1.5 text-navy-mid hover:text-navy text-xs font-heading font-semibold uppercase tracking-wider transition-colors"
-                    >
-                      Email →
-                    </a>
-                  )}
-                </div>
+                <button
+                  type="button"
+                  class="team-toggle inline-flex items-center gap-1.5 text-navy-mid hover:text-navy text-xs font-heading font-semibold uppercase tracking-wider transition-colors"
+                  data-target={detailsId}
+                  aria-expanded="false"
+                >
+                  Ver perfil completo
+                </button>
               </div>
             </article>
           );
@@ -197,3 +196,19 @@ const sorted = members.sort((a, b) => a.data.order - b.data.order);
     </div>
   </section>
 </PageLayout>
+
+<script>
+  document.querySelectorAll('.team-toggle').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const targetId = btn.getAttribute('data-target');
+      if (!targetId) return;
+      const details = document.getElementById(targetId);
+      if (!details) return;
+
+      const isHidden = details.classList.contains('hidden');
+      details.classList.toggle('hidden');
+      btn.setAttribute('aria-expanded', isHidden ? 'true' : 'false');
+      btn.textContent = isHidden ? 'Ocultar perfil completo' : 'Ver perfil completo';
+    });
+  });
+</script>

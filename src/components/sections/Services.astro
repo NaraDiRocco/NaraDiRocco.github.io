@@ -13,6 +13,18 @@ interface Props {
 const { services, lang = 'es' } = Astro.props;
 const t = useTranslations(lang);
 const sorted = [...services].sort((a, b) => a.data.order - b.data.order);
+const serviceCopyEn: Record<string, { title: string; short: string }> = {
+  '01-notarial-real-estate': { title: 'Notarial / Real Estate', short: 'Comprehensive real estate and notarial support for local and international investors in Uruguay.' },
+  '02-residencias': { title: 'Residency', short: 'End-to-end legal and tax residency support in Uruguay for individuals and families.' },
+  '03-servicios-contables': { title: 'Accounting Services', short: 'Full accounting, tax and payroll support with a preventive and compliance-focused approach.' },
+  '04-compliance': { title: 'Compliance', short: 'Regulatory compliance programs tailored to each client’s AML/CFT risk profile.' },
+  '05-inversiones': { title: 'Investments', short: 'Investment structuring with tax efficiency and asset protection at the core.' },
+  '06-derecho-de-familia': { title: 'Family Law', short: 'Personal and estate-oriented family law advisory with focus on practical solutions.' },
+  '07-derecho-del-trabajo': { title: 'Labor Law', short: 'Comprehensive labor advisory for employers and employees across individual and collective matters.' },
+  '08-societario': { title: 'Corporate Law', short: 'Company setup, reorganization and governance across the full corporate lifecycle.' },
+  '09-tributario': { title: 'Tax Law', short: 'Domestic and international tax planning and defense for individuals and companies.' },
+  '10-derecho-civil': { title: 'Civil Law', short: 'Comprehensive advisory and representation in civil litigation, contracts and civil liability matters.' },
+};
 
 const servicesBaseUrl = lang === 'en' ? '/en/services' : '/servicios';
 ---
@@ -31,14 +43,22 @@ const servicesBaseUrl = lang === 'en' ? '/en/services' : '/servicios';
     <!-- Grid de servicios -->
     <div class="services-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {sorted.map((service, i) => (
-        <div class="card-reveal" style={`--delay: ${i * 100}ms`}>
+        <div class="card-reveal service-item" style={`--delay: ${i * 100}ms`}>
+          {(() => {
+            const copy = lang === 'en'
+              ? (serviceCopyEn[service.id] ?? { title: service.data.title, short: service.data.shortDescription })
+              : { title: service.data.title, short: service.data.shortDescription };
+            return (
           <ServiceCard
-            title={service.data.title}
-            description={service.data.shortDescription}
+            title={copy.title}
+            description={copy.short}
             icon={service.data.icon}
             href={`${servicesBaseUrl}/${service.id}`}
             featured={service.data.featured}
+            lang={lang}
           />
+            );
+          })()}
         </div>
       ))}
     </div>
@@ -61,6 +81,20 @@ const servicesBaseUrl = lang === 'en' ? '/en/services' : '/servicios';
 </section>
 
 <style>
+  .service-item:nth-child(n + 4) {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .service-item:nth-child(-n + 6) {
+      display: block;
+    }
+
+    .service-item:nth-child(n + 7) {
+      display: none;
+    }
+  }
+
   @media (prefers-reduced-motion: no-preference) {
     .services-cta-btn {
       animation: ctaPulse 2.8s ease-in-out infinite;

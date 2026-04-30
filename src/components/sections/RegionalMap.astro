@@ -10,8 +10,8 @@ const { lang = 'es' } = Astro.props;
 const t = useTranslations(lang);
 
 const countries = [
-  { name: lang === 'en' ? 'Argentina' : 'Argentina', city: 'Buenos Aires', lat: -34.6037, lng: -58.3816, primary: false },
   { name: lang === 'en' ? 'Uruguay'   : 'Uruguay',   city: 'Punta del Este', lat: -34.9680, lng: -54.9500, primary: true  },
+  { name: lang === 'en' ? 'Argentina' : 'Argentina', city: 'Buenos Aires', lat: -34.6037, lng: -58.3816, primary: false },
   { name: lang === 'en' ? 'Chile'     : 'Chile',     city: 'Santiago',     lat: -33.4489, lng: -70.6693, primary: false },
   { name: lang === 'en' ? 'Brazil'    : 'Brasil',    city: 'São Paulo',    lat: -23.5505, lng: -46.6333, primary: false },
   { name: lang === 'en' ? 'Paraguay'  : 'Paraguay',  city: 'Asunción',     lat: -25.2637, lng: -57.5759, primary: false },
@@ -93,7 +93,7 @@ const headquartersLabel = t('region.headquarters');
       if (!el || typeof L === 'undefined') return;
 
       var map = L.map('regional-map', {
-        center: [-32, -60],
+        center: [-26, -60],
         zoom: 4,
         scrollWheelZoom: false,
         zoomControl: false,
@@ -112,14 +112,14 @@ const headquartersLabel = t('region.headquarters');
         var isPrimary = loc.primary;
         var color = isPrimary ? '#1f2b41' : '#7a9ec0';
         var size  = isPrimary ? 16 : 11;
-        var ring  = isPrimary
-          ? '<div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:26px;height:26px;border:2px solid rgba(31,43,65,0.3);border-radius:50%;"></div>'
-          : '';
+        var pulseSize = isPrimary ? 32 : 24;
+        var pulseOpacity = isPrimary ? 0.36 : 0.28;
+        var pulse = '<div class="map-marker-pulse" style="width:' + pulseSize + 'px;height:' + pulseSize + 'px;background:' + color + ';opacity:' + pulseOpacity + ';"></div>';
 
         var icon = L.divIcon({
           className: '',
           html: '<div style="position:relative;width:' + size + 'px;height:' + size + 'px;">'
-              + ring
+              + pulse
               + '<div style="width:' + size + 'px;height:' + size + 'px;background:' + color + ';border:2.5px solid white;border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,0.3);"></div>'
               + '</div>',
           iconSize: [size, size],
@@ -147,3 +147,30 @@ const headquartersLabel = t('region.headquarters');
     }
   })();
 </script>
+
+<style is:inline>
+  .map-marker-pulse {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border-radius: 999px;
+    transform: translate(-50%, -50%) scale(0.7);
+    animation: mapPulse 1.9s ease-out infinite;
+    pointer-events: none;
+  }
+
+  @keyframes mapPulse {
+    0% {
+      transform: translate(-50%, -50%) scale(0.7);
+      opacity: 0.38;
+    }
+    70% {
+      transform: translate(-50%, -50%) scale(1.55);
+      opacity: 0;
+    }
+    100% {
+      transform: translate(-50%, -50%) scale(0.7);
+      opacity: 0;
+    }
+  }
+</style>

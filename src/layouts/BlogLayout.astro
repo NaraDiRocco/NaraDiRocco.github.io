@@ -3,6 +3,7 @@ import BaseLayout from './BaseLayout.astro';
 import { formatDate } from '@lib/utils';
 
 interface Props {
+  lang?: 'es' | 'en' | 'pt';
   title: string;
   description: string;
   publishDate: Date;
@@ -15,6 +16,7 @@ interface Props {
 }
 
 const {
+  lang = 'es',
   title,
   description,
   publishDate,
@@ -25,6 +27,16 @@ const {
   tags = [],
   canonicalURL,
 } = Astro.props;
+
+const isEnglish = lang === 'en';
+const isPortuguese = lang === 'pt';
+const homeHref = isEnglish ? '/en' : isPortuguese ? '/pt' : '/';
+const newsHref = isEnglish ? '/en/news' : isPortuguese ? '/pt/noticias' : '/novedades';
+const homeLabel = isEnglish ? 'Home' : isPortuguese ? 'Início' : 'Inicio';
+const newsLabel = isEnglish ? 'News' : isPortuguese ? 'Notícias' : 'Novedades';
+const byLabel = isEnglish ? 'By' : 'Por';
+const updatedLabel = isEnglish ? 'Updated' : isPortuguese ? 'Atualizado' : 'Actualizado';
+const backLabel = isEnglish ? 'Back to News' : isPortuguese ? 'Voltar às notícias' : 'Volver a Novedades';
 ---
 
 <BaseLayout
@@ -37,13 +49,13 @@ const {
   canonicalURL={canonicalURL}
 >
   <!-- Article Header -->
-  <section class="bg-navy text-white py-16 md:py-24">
-    <div class="container-main max-w-4xl">
+  <section class="bg-navy text-white pt-36 md:pt-40 pb-10 md:pb-12 min-h-[460px] md:min-h-[580px] flex items-end">
+    <div class="container-main max-w-4xl w-full">
       <nav aria-label="Breadcrumb" class="mb-6">
         <ol class="flex items-center gap-2 text-sm text-white/60">
-          <li><a href="/" class="hover:text-white transition-colors">Inicio</a></li>
+          <li><a href={homeHref} class="hover:text-white transition-colors">{homeLabel}</a></li>
           <li><span aria-hidden="true">/</span></li>
-          <li><a href="/novedades" class="hover:text-white transition-colors">Novedades</a></li>
+          <li><a href={newsHref} class="hover:text-white transition-colors">{newsLabel}</a></li>
           <li><span aria-hidden="true">/</span></li>
           <li class="text-white/80">{title}</li>
         </ol>
@@ -64,7 +76,7 @@ const {
       </p>
 
       <div class="flex flex-wrap items-center gap-4 text-sm text-white/60">
-        <span>Por <strong class="text-white/80">{author}</strong></span>
+        <span>{byLabel} <strong class="text-white/80">{author}</strong></span>
         <span aria-hidden="true">·</span>
         <time datetime={publishDate.toISOString()}>
           {formatDate(publishDate)}
@@ -72,7 +84,7 @@ const {
         {updatedDate && updatedDate > publishDate && (
           <>
             <span aria-hidden="true">·</span>
-            <span>Actualizado: <time datetime={updatedDate.toISOString()}>{formatDate(updatedDate)}</time></span>
+            <span>{updatedLabel}: <time datetime={updatedDate.toISOString()}>{formatDate(updatedDate)}</time></span>
           </>
         )}
       </div>
@@ -105,7 +117,7 @@ const {
           <div class="flex flex-wrap gap-2">
             {tags.map(tag => (
               <a
-                href={`/novedades?tag=${encodeURIComponent(tag)}`}
+                href={`${newsHref}?tag=${encodeURIComponent(tag)}`}
                 class="inline-block bg-gray-light text-gray-text text-sm px-3 py-1 rounded-sm hover:bg-navy hover:text-white transition-colors"
               >
                 #{tag}
@@ -118,10 +130,10 @@ const {
       <!-- Back link -->
       <div class="mt-8">
         <a
-          href="/novedades"
+          href={newsHref}
           class="inline-flex items-center gap-2 text-navy-mid hover:text-navy font-medium transition-colors"
         >
-          &larr; Volver a Novedades
+          &larr; {backLabel}
         </a>
       </div>
     </div>

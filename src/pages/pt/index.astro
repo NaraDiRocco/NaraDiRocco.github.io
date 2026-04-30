@@ -1,0 +1,24 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Hero from '@components/sections/Hero.astro';
+import Services from '@components/sections/Services.astro';
+import WorkProcess from '@components/sections/WorkProcess.astro';
+import Team from '@components/sections/Team.astro';
+import Trust from '@components/sections/Trust.astro';
+import RegionalMap from '@components/sections/RegionalMap.astro';
+import Contact from '@components/sections/Contact.astro';
+import { getCollection } from 'astro:content';
+
+const services = await getCollection('services', ({ data }) => !data.draft);
+const team = await getCollection('team');
+---
+
+<BaseLayout title="MECOL ESTUDIO" description="Escritório jurídico, notarial e contábil com foco em Punta del Este." canonicalURL="https://mecolestudio.com/pt">
+  <Hero lang="pt" />
+  <Services services={services} lang="pt" />
+  <WorkProcess lang="pt" />
+  <Team members={team} lang="pt" />
+  <Trust lang="pt" />
+  <RegionalMap lang="pt" />
+  <Contact lang="pt" />
+</BaseLayout>
