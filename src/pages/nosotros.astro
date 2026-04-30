@@ -60,22 +60,38 @@ const sorted = members.sort((a, b) => a.data.order - b.data.order);
         {[
           {
             title: 'Misión',
-            icon: '🎯',
+            icon: 'target',
             text: 'Brindar asesoramiento jurídico de excelencia que contribuya al crecimiento sostenible de nuestros clientes, con un enfoque estratégico e integral.',
           },
           {
             title: 'Visión',
-            icon: '🔭',
+            icon: 'globe',
             text: 'Ser el estudio jurídico de referencia en Argentina y la región para empresas que buscan un acompañamiento legal estratégico y comprometido.',
           },
           {
             title: 'Valores',
-            icon: '⚖️',
+            icon: 'shield',
             text: 'Integridad, excelencia técnica, compromiso con el cliente, confidencialidad y orientación a resultados son los pilares de nuestra práctica profesional.',
           },
         ].map(item => (
           <div class="bg-white rounded-sm p-8 shadow-sm border-t-4 border-gold text-center">
-            <div class="text-4xl mb-4" aria-hidden="true">{item.icon}</div>
+            <div class="w-14 h-14 bg-navy rounded-sm flex items-center justify-center mx-auto mb-4" aria-hidden="true">
+              {item.icon === 'target' && (
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-gold">
+                  <circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="2"/>
+                </svg>
+              )}
+              {item.icon === 'globe' && (
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-gold">
+                  <circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 0 20"/><path d="M12 2a15.3 15.3 0 0 0 0 20"/>
+                </svg>
+              )}
+              {item.icon === 'shield' && (
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-gold">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+              )}
+            </div>
             <h3 class="font-heading font-bold text-navy text-lg uppercase tracking-wide mb-4">
               {item.title}
             </h3>
@@ -95,14 +111,14 @@ const sorted = members.sort((a, b) => a.data.order - b.data.order);
         </h2>
         <div class="w-16 h-0.5 bg-gold mx-auto mt-4"></div>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="mobile-why-carousel flex md:grid md:grid-cols-2 lg:grid-cols-4 gap-6 overflow-x-auto md:overflow-visible pb-2 md:pb-0 -mx-1 px-1 md:mx-0 md:px-0">
         {[
           { title: 'Experiencia Comprobada', text: 'Más de 15 años asesorando empresas y particulares.' },
           { title: 'Visión Integral', text: 'Abordamos cada caso desde todas sus perspectivas jurídicas.' },
           { title: 'Alcance Regional', text: 'Presencia activa en Argentina y el Cono Sur.' },
           { title: 'Atención Personalizada', text: 'Cada cliente recibe atención directa de nuestros socios.' },
         ].map(item => (
-          <div class="bg-white/5 border border-white/10 rounded-sm p-6">
+          <div class="mobile-why-card min-w-full md:min-w-0 bg-white/5 border border-white/10 rounded-sm p-6 snap-center">
             <div class="w-8 h-0.5 bg-gold mb-4"></div>
             <h3 class="font-heading font-bold text-white text-sm uppercase tracking-wider mb-3">
               {item.title}
@@ -110,6 +126,12 @@ const sorted = members.sort((a, b) => a.data.order - b.data.order);
             <p class="text-white/50 text-sm leading-relaxed">{item.text}</p>
           </div>
         ))}
+      </div>
+      <div class="mobile-why-dots md:hidden flex justify-center gap-2 mt-4" aria-hidden="true">
+        <span class="mobile-why-dot w-2 h-2 rounded-full bg-white"></span>
+        <span class="mobile-why-dot w-2 h-2 rounded-full bg-white/35"></span>
+        <span class="mobile-why-dot w-2 h-2 rounded-full bg-white/35"></span>
+        <span class="mobile-why-dot w-2 h-2 rounded-full bg-white/35"></span>
       </div>
     </div>
   </section>
@@ -196,6 +218,62 @@ const sorted = members.sort((a, b) => a.data.order - b.data.order);
     </div>
   </section>
 </PageLayout>
+
+<style>
+  .mobile-why-carousel {
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .mobile-why-carousel::-webkit-scrollbar {
+    display: none;
+  }
+</style>
+
+<script>
+  const mobileCarousel = document.querySelector('.mobile-why-carousel');
+  const mobileCards = mobileCarousel?.querySelectorAll('.mobile-why-card');
+  const dots = document.querySelectorAll('.mobile-why-dot');
+
+  if (mobileCarousel && mobileCards && mobileCards.length > 1) {
+    let currentIndex = 0;
+    const total = mobileCards.length;
+
+    const goToCard = (index) => {
+      const target = mobileCards[index];
+      if (!target) return;
+      mobileCarousel.scrollTo({
+        left: target.offsetLeft - mobileCarousel.offsetLeft,
+        behavior: 'smooth',
+      });
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('bg-white', i === index);
+        dot.classList.toggle('bg-white/35', i !== index);
+      });
+    };
+
+    const startAutoSlide = () => {
+      return setInterval(() => {
+        if (window.innerWidth >= 768) return;
+        currentIndex = (currentIndex + 1) % total;
+        goToCard(currentIndex);
+      }, 3200);
+    };
+
+    let timer = startAutoSlide();
+
+    mobileCarousel.addEventListener('pointerdown', () => clearInterval(timer));
+    mobileCarousel.addEventListener('pointerup', () => { timer = startAutoSlide(); });
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 768) clearInterval(timer);
+      else {
+        clearInterval(timer);
+        timer = startAutoSlide();
+      }
+    });
+  }
+</script>
 
 <script>
   document.querySelectorAll('.team-toggle').forEach((btn) => {

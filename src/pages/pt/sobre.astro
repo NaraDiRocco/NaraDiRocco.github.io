@@ -65,12 +65,28 @@ const teamBio: Record<string, string[]> = {
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         {[
-          { title: 'Missão', icon: '🎯', text: 'Oferecer assessoria jurídica de excelência para apoiar o crescimento sustentável dos clientes, com visão estratégica e integrada.' },
-          { title: 'Visão', icon: '🔭', text: 'Ser um escritório de referência no Uruguai e na região para clientes que buscam assessoria estratégica, próxima e confiável.' },
-          { title: 'Valores', icon: '⚖️', text: 'Integridade, excelência técnica, compromisso com o cliente, confidencialidade e foco em resultados orientam nosso trabalho.' },
+          { title: 'Missão', icon: 'target', text: 'Oferecer assessoria jurídica de excelência para apoiar o crescimento sustentável dos clientes, com visão estratégica e integrada.' },
+          { title: 'Visão', icon: 'globe', text: 'Ser um escritório de referência no Uruguai e na região para clientes que buscam assessoria estratégica, próxima e confiável.' },
+          { title: 'Valores', icon: 'shield', text: 'Integridade, excelência técnica, compromisso com o cliente, confidencialidade e foco em resultados orientam nosso trabalho.' },
         ].map(item => (
           <div class="bg-white rounded-sm p-8 shadow-sm border-t-4 border-gold text-center">
-            <div class="text-4xl mb-4" aria-hidden="true">{item.icon}</div>
+            <div class="w-14 h-14 bg-navy rounded-sm flex items-center justify-center mx-auto mb-4" aria-hidden="true">
+              {item.icon === 'target' && (
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-gold">
+                  <circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="2"/>
+                </svg>
+              )}
+              {item.icon === 'globe' && (
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-gold">
+                  <circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 0 20"/><path d="M12 2a15.3 15.3 0 0 0 0 20"/>
+                </svg>
+              )}
+              {item.icon === 'shield' && (
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-gold">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+              )}
+            </div>
             <h3 class="font-heading font-bold text-navy text-lg uppercase tracking-wide mb-4">{item.title}</h3>
             <p class="text-gray-text text-sm leading-relaxed">{item.text}</p>
           </div>

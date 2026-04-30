@@ -19,6 +19,19 @@ const featuredBodyEn: Record<string, string> = {
 const featuredBodyPt: Record<string, string> = {
   fundador: 'Sou Escrivão Público formado pela Faculdade de Direito do CLAEH, com mais de seis anos de prática profissional. Como diretor e fundador da firma, sou especializado em real estate e direito civil, com base em Punta del Este. Durante três anos integrei a cátedra de Direito das Obrigações na Universidade CLAEH e assessoro clientes de toda a América Latina, com foco especial em investidores argentinos que escolhem o Uruguai para seus projetos.',
 };
+const featuredText = featuredMember
+  ? (lang === 'en'
+      ? (featuredBodyEn[featuredMember.id] ?? featuredMember.body)
+      : lang === 'pt'
+        ? (featuredBodyPt[featuredMember.id] ?? featuredMember.body)
+        : featuredMember.body)
+  : '';
+const featuredSummary = featuredText
+  .split('. ')
+  .slice(0, 2)
+  .join('. ')
+  .trim()
+  + (featuredText.split('. ').length > 2 ? '.' : '');
 ---
 
 <section id="equipo" class="section-padding bg-white">
@@ -64,12 +77,11 @@ const featuredBodyPt: Record<string, string> = {
             <p class="text-navy/80 font-medium text-sm mb-4">
               {featuredMember.data.specialization}
             </p>
-            <p class="text-gray-text text-sm leading-relaxed mb-6">
-              {lang === 'en'
-                ? (featuredBodyEn[featuredMember.id] ?? featuredMember.body)
-                : lang === 'pt'
-                  ? (featuredBodyPt[featuredMember.id] ?? featuredMember.body)
-                : featuredMember.body}
+            <p class="text-gray-text text-sm leading-relaxed mb-6 md:hidden">
+              {featuredSummary}
+            </p>
+            <p class="text-gray-text text-sm leading-relaxed mb-6 hidden md:block">
+              {featuredText}
             </p>
 
             <div>
